@@ -71,9 +71,9 @@ def before():
 def handle_key_error(error):
     return Result.error("缺少参数->"+str(error))
 
-# @app.errorhandler(Exception)
-# def exception(error_msg):
-#     return Result.error(error_msg)
+@app.errorhandler(Exception)
+def exception(error_msg):
+    return Result.error(error_msg)
 
 @app.after_request
 def after_request(response):
