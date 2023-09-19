@@ -1,0 +1,16 @@
+from .sys_user_model import SysBaseModel as SysBaseModel
+from .sys_user_model import SysUserModel as SysUserModel
+from .sys_menu_model import SysMenuModel as SysMenuModel
+from .sys_user_role_model import SysUserRoleModel as SysUserRoleModel
+from .sys_role_menu_model import SysRoleMenuModel as SysRoleMenuModel
+from .sys_dict_type_model import SysDictTypeModel as SysDictTypeModel
+from .sys_dict_data_model import SysDictDataModel as SysDictDataModel
+from .sys_user_post_model import SysUserPostModel as SysUserPostModel
+from .sys_org_model import SysOrgModel as SysOrgModel
+from .sys_post_model import SysPostModel as SysPostModel
+from .sys_role_model import SysRoleModel as SysRoleModel
+from .sys_role_data_scope_model import SysRoleDataScopeModel as SysRoleDataScopeModel
+from .sys_params_model import SysParamsModel as SysParamsModel
+from .sys_attachment_model import SysAttachmentModel as SysAttachmentModel
+from .sys_log_login_model import SysLogLoginModel as SysLogLoginModel
+from .sys_log_operate_model import SysLogOperateModel as SysLogOperateModel

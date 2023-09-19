@@ -1,0 +1,25 @@
+APP:
+  PORT: 8080
+  STATIC_FOLDER: "static"
+  TOKEN_NAME: "Authorization"
+  AUTH_WHITE_LIST:
+    - "/favicon.ico"
+    - "/static"
+    - "/sys/auth/login"
+    - "/sys/auth/captcha"
+    - "/sys/auth/captcha/enabled"
+
+REDIS:
+  HOST: "127.0.0.1"
+  PORT: 6379
+  DB: 1
+  PASSWORD: "zKmv4k3p"
+
+SQLALCHEMY:
+  DATABASE_URI: "mysql+pymysql://username:password@127.0.0.1:3306/dbname?charset=utf8"
+  POOL_SIZE: 10
+  POOL_TIMEOUT: 30
+  POOL_RECYCLE: 3600
+  TRACK_MODIFICATIONS: false
+  COMMIT_ON_TEARDOWN: false
+  SQLALCHEMY_ECHO: true

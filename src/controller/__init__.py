@@ -1,0 +1,13 @@
+from .sys_auth_controller import sys_auth_controller as sys_auth_controller
+from .sys_user_controller import sys_user_controller as sys_user_controller
+from .sys_menu_controller import sys_menu_controller as sys_menu_controller
+from .sys_dict_type_controller import sys_dict_type_controller as sys_dict_type_controller
+from .sys_dict_data_controller import sys_dict_data_controller as sys_dict_data_controller
+from .sys_org_controller import sys_org_controller as sys_org_controller
+from .sys_post_controller import sys_post_controller as sys_post_controller
+from .sys_role_controller import sys_role_controller as sys_role_controller
+from .sys_params_controller import sys_params_controller as sys_params_controller
+from .sys_attachment_controller import sys_attachment_controller as sys_attachment_controller
+from .sys_file_upload_controller import sys_file_upload_controller as sys_file_upload_controller
+from .sys_log_login_controller import sys_log_login_controller as sys_log_login_controller
+from .sys_log_operate_controller import sys_log_operate_controller as sys_log_operate_controller
