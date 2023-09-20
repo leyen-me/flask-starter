@@ -1,3 +1,4 @@
+import os
 import uuid
 import random
 import io
@@ -25,7 +26,7 @@ class SysCaptchaService():
         # 创建一个画笔对象
         draw = ImageDraw.Draw(img)
         # 设置字体
-        font = ImageFont.truetype('arial.ttf', font_size)
+        font = ImageFont.truetype(os.path.join(os.getcwd(), "assets/fonts/HarmonyOS_Sans_Bold.ttf"), font_size)
         # 获取字符的宽度和高度
         # text_width, text_height = draw.textsize(code, font)
         # 获取字符的宽度和高度
