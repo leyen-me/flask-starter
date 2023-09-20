@@ -38,8 +38,8 @@ PyYAML            -> 配置文件
 bcrypt            -> 数据库密码加解密方案
 ```
 
-### 首次使用
-```
+### 安装依赖
+```cmd
 创建虚拟环境
 python -m venv venv
 
@@ -50,12 +50,26 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 运行
+### 本地运行
 ```cmd
-run
+激活虚拟环境
+venv\Scripts\activate
+
+cd src
+
+python main.py
 ```
 
 ### 生成依赖
 ```
 pip freeze > requirements.txt
+```
+
+### 服务器部署
+```
+构建镜像
+docker build -t flask-starter .
+
+运行容器
+docker run -dit --name flask-starter-demo -p 8080:8080 flask-starter
 ```
