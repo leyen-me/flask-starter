@@ -38,6 +38,8 @@ with app.app_context():
     Initialize.init()
 # 初始化任务调度器
 scheduler.init_app(app)
+# 启动调度器
+scheduler.start()
 
 @event.listens_for(SysBaseModel, "before_insert", propagate=True)
 def before_insert_listener(mapper, connection, model):
@@ -97,8 +99,8 @@ app.register_blueprint(sys_log_operate_controller)
 # =========================================注册路由E N D=========================================#
 
 
+
 if __name__ == '__main__':
-    # 启动调度器
-    scheduler.start()
     # 启动App
+    # 生产环境将不会运行, 服务也将不会在是配置的8080端口，生产环境的端口取决于Dockerfile如何配置
     app.run(host='0.0.0.0', port=CONFIG["APP"]["PORT"], debug=True)
