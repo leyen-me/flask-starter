@@ -7,7 +7,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 from common import RedisKeys
 from db import redis
-
+from service import SysParamsService
 
 
 class SysCaptchaService():
@@ -68,7 +68,7 @@ class SysCaptchaService():
         }
 
     def is_captcha_enabled(self):
-        return True if str(redis.hget(RedisKeys.getParamKey(), 'LOGIN_CAPTCHA')) == "true" else False
+        return True if SysParamsService().get_param_key('LOGIN_CAPTCHA') == "true" else False
 
     def validate(self, key, code):
         # 如果关闭了验证码，则直接效验通过

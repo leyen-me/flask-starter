@@ -52,6 +52,17 @@ class SysParamsService(BaseService):
 
     def delete(self, id_list):
         model_list = super().remove_by_ids(id_list)
-        
         for model in model_list:
             redis.hdel(RedisKeys.getParamKey(), model.param_key)
+    
+    def get_param_key(self, param_key):
+        value = redis.hget(RedisKeys.getParamKey(), param_key)
+        if not value is None:
+            return str(value)
+        # 如果缓存没有，则查询数据库
+        res = db.session.query(SysParamsModel).filter(SysParamsModel.param_key == param_key, SysParamsModel.deleted == 0).one_or_none()
+        if not res:
+            raise Exception("参数值不存在，paramKey：" + param_key)
+        # 保存到缓存
+        redis.hset(RedisKeys.getParamKey(), res.param_key, res.param_value)
+        return res.param_value
