@@ -6,5 +6,5 @@ if 'gunicorn' in os.environ.get('SERVER_SOFTWARE', ''):
 else:
     config_path = os.path.join(os.getcwd(), "config/config.yml")
 
-with open(config_path, 'r') as file:
+with open(config_path, 'r', encoding="utf-8") as file:
     CONFIG = yaml.safe_load(file)

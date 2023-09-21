@@ -79,3 +79,24 @@ docker build -t flask-starter .
 运行容器
 docker run -dit --name flask-starter-demo -p 8080:8080 flask-starter
 ```
+
+### 代码生成器
+#### 在model目录下新建一个模型
+```
+sys_xxx_model.py
+
+from sqlalchemy import Column, BigInteger
+
+from db import db
+from .sys_base_model import SysBaseModel
+
+class SysXxxModel(SysBaseModel, db.Model):
+    __tablename__ = "sys_xxx"
+```
+
+#### 运行命令(自动导入并生成service和controller)
+```
+cd src
+
+python generator/code_generator.py
+```
