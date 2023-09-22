@@ -13,6 +13,7 @@ class CodeGenerator:
         "sys_role_menu_controller",
         "sys_user_post_controller",
         "sys_user_role_controller",
+        "sys_user_token_controller"
     ]
 
     def get_service_template(self, upper_name):

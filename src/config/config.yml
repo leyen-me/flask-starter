@@ -2,6 +2,9 @@ APP:
   PORT: 8080
   STATIC_FOLDER: "static"
   TOKEN_NAME: "Authorization"
+
+  # TOKEN_EXPIRE: TOKEN失效时间（秒）
+  TOKEN_EXPIRE: 86400
   AUTH_WHITE_LIST:
     - "/favicon.ico"
     - "/static"

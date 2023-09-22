@@ -70,6 +70,9 @@ class SysUserService(BaseService):
             return "修改成功"
         else:
             raise Exception("原密码错误")
+        
+        # 删除在线用户，在线用户需要重新登录
+
     
     def get_data_scope(self, user):
         data_scope = db.session.query(
@@ -160,7 +163,8 @@ class SysUserService(BaseService):
         SysUserRoleService().save_or_update(user.id, vo['role_id_list'])
         SysUserPostService().save_or_update(user.id, vo['post_id_list'])
 
-        
+        # 修改用户的缓存信息
+        SysUserTokenService().update_cache_auth_by_user_id(user.id)
         return True
     
 

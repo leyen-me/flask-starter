@@ -1,5 +1,5 @@
 from db import db
-from service import BaseService
+from service import BaseService, SysUserTokenService
 from model import SysUserRoleModel
 
 
@@ -35,6 +35,9 @@ class SysUserRoleService(BaseService):
             user_role.deleted = 1
         db.session.commit()
 
+        for user_role in user_role_list:
+            SysUserTokenService().update_cache_auth_by_user_id(user_role.user_id)
+
     def save_user_list(self, role_id, user_id_list):
         db_role_id_list = self.get_user_id_list(role_id)
         # 需要新增的用户ID
@@ -42,6 +45,9 @@ class SysUserRoleService(BaseService):
         for user_id in insert_user_id_list:
             db.session.add(SysUserRoleModel(user_id=user_id,role_id = role_id))
         db.session.commit()
+
+        for user_id in insert_user_id_list:
+            SysUserTokenService().update_cache_auth_by_user_id(user_id)
   
     def save_or_update(self, user_id, role_id_list):
         db_role_id_list = self.get_role_id_list(user_id)

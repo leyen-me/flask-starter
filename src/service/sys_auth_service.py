@@ -1,11 +1,13 @@
 import uuid
 import json
+from datetime import datetime, timedelta
 
 from db import redis
-from service import SysCaptchaService, SysUserService, SysMenuService, SysLogLoginService
+from model import SysUserTokenModel
+from service import SysCaptchaService, SysUserService, SysMenuService, SysLogLoginService, SysUserTokenService
 from common import RedisKeys, Result
 from enums import SysLoginStatusEnum, SysLoginOperationEnum
-
+from config import CONFIG
 
 
 class SysAuthService():
@@ -30,7 +32,11 @@ class SysAuthService():
         # 6.生成accessToken
         access_token = str(uuid.uuid4())
         # 7.保存用户信息到缓存
-        redis.set(RedisKeys.getAccessTokenKey(access_token), json.dumps(Result.handle(user)), 3600 * 24)
+        redis.set(RedisKeys.getAccessTokenKey(access_token), json.dumps(Result.handle(user)), CONFIG["APP"]["TOKEN_EXPIRE"])
+        create_time = datetime.now()
+        access_token_expire = create_time + timedelta(seconds=CONFIG["APP"]["TOKEN_EXPIRE"])
+        # 8.保存在线用户到数据库，方便管理在线用户
+        SysUserTokenService().save(SysUserTokenModel(user_id=user.id, access_token=access_token, access_token_expire=access_token_expire, create_time=create_time))
 
         SysLogLoginService().save(username=user.username, status=SysLoginStatusEnum.SUCCESS.value, operation=SysLoginOperationEnum.LOGIN_SUCCESS.value)        
         return { 

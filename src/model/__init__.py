@@ -14,3 +14,4 @@ from .sys_params_model import SysParamsModel as SysParamsModel
 from .sys_attachment_model import SysAttachmentModel as SysAttachmentModel
 from .sys_log_login_model import SysLogLoginModel as SysLogLoginModel
 from .sys_log_operate_model import SysLogOperateModel as SysLogOperateModel
+from .sys_user_token_model import SysUserTokenModel as SysUserTokenModel

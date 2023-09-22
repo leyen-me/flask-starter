@@ -1,6 +1,8 @@
 from .base_service import BaseService as BaseService
 
 # =========================================中间表START=========================================#
+from .sys_user_details_service import SysUserDetailsService as SysUserDetailsService
+from .sys_user_token_service import SysUserTokenService as SysUserTokenService
 from .sys_file_upload_service import SysFileUploadService as SysFileUploadService
 from .sys_user_role_service import SysUserRoleService as SysUserRoleService
 from .sys_user_post_service import SysUserPostService as SysUserPostService
