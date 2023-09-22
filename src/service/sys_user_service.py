@@ -6,7 +6,7 @@ from sqlalchemy import func
 from db import db
 from model import SysUserModel, SysRoleModel, SysUserRoleModel
 from service import *
-from enums import SysDataScopeEnum, SysLoginStatusEnum, SysLoginOperationEnum
+from enums import SysDataScopeEnum, SysLoginStatusEnum, SysLoginOperationEnum, SysUserStatusEnum
 
 
 
@@ -45,6 +45,8 @@ class SysUserService(BaseService):
         password = str(password).encode('utf-8')
         _password = str(res.password).encode('utf-8')
         if bcrypt.checkpw(password, _password):
+            if res.status == SysUserStatusEnum.DISABLE.value:
+                raise Exception("账号已被停用")
             return res
         else:
             SysLogLoginService().save(username=username, status=SysLoginStatusEnum.FAIL.value, operation=SysLoginOperationEnum.ACCOUNT_FAIL.value)        
@@ -137,23 +139,28 @@ class SysUserService(BaseService):
         user = db.session.query(SysUserModel).filter(SysUserModel.id == vo['id'],SysUserModel.deleted == 0).one()
 
         res = self.get_by_username(vo['username'])
-        if res != None:
+        if res != None and res.id != user.id:
             raise Exception("用户已存在")
         
         res = self.get_by_mobile(vo['mobile'])
-        if res != None:
+        if res != None and res.id != user.id:
             raise Exception("手机号已存在")
 
         if user.password != None:
             user.password = bcrypt.hashpw(password=user.password.encode('utf-8'),salt=bcrypt.gensalt()).decode("utf-8")
         
         # 保存用户
+        for key, value in vo.items():
+            setattr(user, key, value)
+        
         db.session.add(user)
         db.session.commit()
 
         # 保存用户角色关系
         SysUserRoleService().save_or_update(user.id, vo['role_id_list'])
         SysUserPostService().save_or_update(user.id, vo['post_id_list'])
+
+        
         return True
     
 

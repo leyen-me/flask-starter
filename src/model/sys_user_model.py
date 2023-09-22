@@ -4,9 +4,6 @@ from db import db
 from .sys_base_model import SysBaseModel
 
 
-# -> 机构
-#     -> 角色 -> 数据范围
-#         -> 用户
 
 class SysUserModel(SysBaseModel, db.Model):
     __tablename__ = "sys_user"

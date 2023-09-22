@@ -11,6 +11,7 @@ from common import RedisKeys, Result
 from config import CONFIG
 from schedule import scheduler
 from db.initialize import Initialize
+from enums import SysUserStatusEnum
 
 app = Flask(__name__, static_folder=CONFIG["APP"]["STATIC_FOLDER"])
 
@@ -66,6 +67,8 @@ def before():
     user_str = redis.get(RedisKeys.getAccessTokenKey(access_token))
     if user_str:
         g.user = json.loads(user_str)
+        if g.user['status'] == SysUserStatusEnum.DISABLE.value:
+            raise Exception("账号已被停用")
     else:
         raise Exception("登录已过期")
 
