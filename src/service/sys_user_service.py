@@ -16,6 +16,7 @@ class SysUserService(BaseService):
         res = db.session.query(SysUserModel).filter(SysUserModel.id == user_id,SysUserModel.deleted == 0).one()
         return res
 
+    # todo：添加数据权限
     def page(self):
         query = db.session.query(SysUserModel)
 
@@ -30,7 +31,9 @@ class SysUserService(BaseService):
         gender = request.args.get('gender')
         if gender:
             query = query.filter(SysUserModel.gender == gender)
-
+        
+        query = query.filter(SysUserModel.deleted == 0)
+        # org_name
         return self.query_page(query)
 
     def login(self, username, password):
@@ -43,8 +46,8 @@ class SysUserService(BaseService):
             # 用户不存在
             raise Exception("用户不存在")
         password = str(password).encode('utf-8')
-        _password = str(res.password).encode('utf-8')
-        if bcrypt.checkpw(password, _password):
+        hashed_password = str(res.password).encode('utf-8')
+        if bcrypt.checkpw(password, hashed_password):
             if res.status == SysUserStatusEnum.DISABLE.value:
                 raise Exception("账号已被停用")
             return res
@@ -60,11 +63,11 @@ class SysUserService(BaseService):
 
         db_model = db.session.query(SysUserModel).filter(SysUserModel.id == g.user['id']).one()
         # 数据库存的密码
-        db_passoword = db_model.password.encode('utf-8')
+        hashed_password = db_model.password.encode('utf-8')
         # 比对以前的密码
-        if bcrypt.checkpw(old_password, db_passoword):  
+        if bcrypt.checkpw(old_password, hashed_password):  
             salt = bcrypt.gensalt()
-            new_password = bcrypt.hashpw(password=new_password,salt=salt).decode("utf-8")
+            new_password = bcrypt.hashpw(password=new_password, salt=salt).decode("utf-8")
             db_model.password = new_password
             db.session.commit()
             return "修改成功"
@@ -139,7 +142,7 @@ class SysUserService(BaseService):
 
 
     def update(self, vo):
-        user = db.session.query(SysUserModel).filter(SysUserModel.id == vo['id'],SysUserModel.deleted == 0).one()
+        user = db.session.query(SysUserModel).filter(SysUserModel.id == vo['id'], SysUserModel.deleted == 0).one()
 
         res = self.get_by_username(vo['username'])
         if res != None and res.id != user.id:
@@ -148,13 +151,13 @@ class SysUserService(BaseService):
         res = self.get_by_mobile(vo['mobile'])
         if res != None and res.id != user.id:
             raise Exception("手机号已存在")
-
-        if user.password != None:
-            user.password = bcrypt.hashpw(password=user.password.encode('utf-8'),salt=bcrypt.gensalt()).decode("utf-8")
         
         # 保存用户
         for key, value in vo.items():
             setattr(user, key, value)
+        
+        if user.password != None:
+            user.password = bcrypt.hashpw(user.password.encode('utf-8'), salt=bcrypt.gensalt()).decode("utf-8")
         
         db.session.add(user)
         db.session.commit()

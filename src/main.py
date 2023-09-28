@@ -44,6 +44,7 @@ scheduler.start()
 
 @event.listens_for(SysBaseModel, "before_insert", propagate=True)
 def before_insert_listener(mapper, connection, model):
+    model.id = None if not model.id else model.id
     model.creator = g.user["id"] if model.creator is None else model.creator
     model.updater = g.user["id"] if model.updater is None else model.updater
 

@@ -17,13 +17,14 @@ def page():
 @has_authority("sys:user:info")
 def get(id):
     res = SysUserService().get_by_id(id)
+    res.password = ""
     if res:
         res.role_id_list = SysUserRoleService().get_role_id_list(id)
         res.post_id_list = SysUserPostService().get_post_id_list(id)
     return Result.ok(res)
 
 @sys_user_controller.route("/info")
-def info():
+def info(): 
     return Result.ok(g.user)
 
 @sys_user_controller.route("/password", methods=["PUT"])

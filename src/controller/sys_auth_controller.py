@@ -15,3 +15,7 @@ def captcha_enabled():
 @sys_auth_controller.route("/login", methods=["POST"])
 def login():
     return Result.ok(SysAuthService().login_by_account(request.json))
+
+@sys_auth_controller.route("/logout", methods=["POST"])
+def logout():
+    return Result.ok("退出成功")

@@ -15,7 +15,7 @@ class SysUserModel(SysBaseModel, db.Model):
     email = Column(String(100), comment="邮箱")
     mobile = Column(String(20), comment="手机号")
     org_id = Column(BigInteger, comment="机构ID")
-    super_admin = Column(Integer, comment="超级管理员")
+    super_admin = Column(Integer, default=0, comment="超级管理员")
     status = Column(Integer, comment="状态")
 
     role_id_list = []
