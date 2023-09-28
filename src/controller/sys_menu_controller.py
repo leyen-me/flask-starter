@@ -7,7 +7,7 @@ sys_menu_controller = Controller("sys_menu", __name__, url_prefix='/sys/menu')
 
 @sys_menu_controller.route("/nav", methods=['GET'])
 def nav():
-    return Result.ok(SysMenuService().get_user_menu_list(g.user, 0))
+    return Result.ok(SysMenuService().get_user_menu_tree(g.user, 0))
 
 @sys_menu_controller.route("/authority", methods=['GET'])
 def authority():

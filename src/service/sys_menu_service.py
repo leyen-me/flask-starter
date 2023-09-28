@@ -1,8 +1,9 @@
 from itertools import chain
-from sqlalchemy import text
+from sqlalchemy import text, and_
+from sqlalchemy.orm import aliased
 
 from db import db
-from model import SysMenuModel
+from model import SysMenuModel, SysUserRoleModel, SysRoleMenuModel
 from common import Tree, Result
 from service import BaseService, SysRoleMenuService
 
@@ -38,16 +39,39 @@ class SysMenuService(BaseService):
     def get_menu_list(self, menu_type):
         query = db.session.query(SysMenuModel)
         if menu_type != None:
-            query.filter(SysMenuModel.type == menu_type)
+            query = query.filter(SysMenuModel.type == menu_type)
         menu_list = query.filter(SysMenuModel.deleted == 0).order_by(SysMenuModel.sort.asc()).all()
         menu_list = Result.handle(menu_list)
         return Tree.build_tree(menu_list)
 
-    def get_user_menu_list(self, user, menu_type):
+    def get_user_menu_list(self, user_id, menu_type):
+        t1 = aliased(SysUserRoleModel)
+        t2 = aliased(SysRoleMenuModel)
+        t3 = aliased(SysMenuModel)
+
+        query = db.session.query(t3)\
+        .select_from(t1)\
+        .outerjoin(t2, t1.role_id == t2.role_id)\
+        .outerjoin(t3, t2.menu_id == t3.id)\
+        .filter(and_(
+            t1.user_id == user_id,
+            t1.deleted == 0,
+            t2.deleted == 0,
+            t3.deleted == 0
+        ))
+        if menu_type != None:
+            query = query.filter(t3.type == menu_type)
+        query = query.order_by(t3.sort.asc())
+        
+        menu_list = query.all()
+        menu_list = Result.handle(menu_list)
+        return Tree.build_tree(menu_list)
+
+    def get_user_menu_tree(self, user, menu_type):
         if user['super_admin']:
             menu_list = self.get_menu_list(menu_type)
         else:
-            menu_list = []
+            menu_list = self.get_user_menu_list(user['id'], menu_type)
         return menu_list
 
     def info(self, id):

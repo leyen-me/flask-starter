@@ -49,7 +49,7 @@ def delete():
 @sys_role_controller.route("/menu", methods=['GET'])
 @has_authority("sys:role:menu")
 def menu():
-    return Result.ok(SysMenuService().get_user_menu_list(g.user, None))
+    return Result.ok(SysMenuService().get_user_menu_tree(g.user, None))
 
 @sys_role_controller.route("/user/page", methods=['GET'])
 @has_authority("sys:role:update")
