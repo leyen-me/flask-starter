@@ -16,6 +16,7 @@ class SysRoleService(BaseService):
         name   = request.args.get('name')
         if name:
             query = query.filter(SysRoleModel.name.like(f"%{name}%"))
+        query = query.filter(SysRoleModel.deleted == 0)
         return self.query_page(self.get_query_by_data_scope(query))
     
     def get_list(self):

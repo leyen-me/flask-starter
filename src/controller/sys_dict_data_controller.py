@@ -8,7 +8,8 @@ sys_dict_data_controller = Controller("sys_dict_data", __name__, url_prefix='/sy
 @sys_dict_data_controller.route("/page", methods=['GET'])
 @has_authority("sys:dict:page")
 def page():
-    return Result.ok(SysDictDataService().page())
+    dict_type_id = request.args.get("dict_type_id")
+    return Result.ok(SysDictDataService().page(dict_type_id))
 
 @sys_dict_data_controller.route("/<int:id>", methods=['GET'])
 @has_authority("sys:dict:info")

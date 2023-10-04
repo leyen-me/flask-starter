@@ -24,6 +24,11 @@ def save():
     body = request.json
     return Result.ok(SysPostService().save(body))
 
+@sys_post_controller.route("/<int:id>", methods=['GET'])
+@has_authority("sys:post:info")
+def info(id):
+    return Result.ok(SysPostService().info(id))
+
 @sys_post_controller.route("/", methods=['PUT'])
 @has_authority("sys:post:update")
 def update():

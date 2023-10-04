@@ -65,7 +65,7 @@ class Initialize:
                 id=6, pid=2, name="删除", url="", authority="sys:menu:delete", type=1, open_style=0, icon="", creator=10000, updater=10000
             ),
             SysMenuModel(
-                id=7, pid=1, name="数据字典", url="sys/dict/type", authority=None, type=0, open_style=0, icon="icon-insertrowabove", creator=10000, updater=10000
+                id=7, pid=1, name="数据字典", url="sys/dict", authority=None, type=0, open_style=0, icon="icon-insertrowabove", creator=10000, updater=10000
             ),
             SysMenuModel(
                 id=8, pid=7, name="查询", url="", authority="sys:dict:page", type=1, open_style=0, icon="", creator=10000, updater=10000
@@ -142,9 +142,9 @@ class Initialize:
             SysMenuModel(
                 id=32, pid=28, name="删除", url="", authority="sys:user:delete", type=1, open_style=0, icon="", creator=10000, updater=10000
             ),
-            SysMenuModel(
-                id=33, pid=0, name="应用管理", url="", authority=None, type=0, open_style=0, icon="icon-appstore", creator=10000, updater=10000
-            ),
+            # SysMenuModel(
+            #     id=33, pid=0, name="应用管理", url="", authority=None, type=0, open_style=0, icon="icon-appstore", creator=10000, updater=10000
+            # ),
             SysMenuModel(
                 id=34, pid=1, name="附件管理", url="sys/attachment", authority=None, type=0, open_style=0, icon="icon-folder-fill", creator=10000, updater=10000
             ),

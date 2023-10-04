@@ -6,8 +6,8 @@ from service import BaseService
 
 class SysDictDataService(BaseService):
 
-    def page(self):
-        query = db.session.query(SysDictDataModel).filter(SysDictDataModel.deleted == 0)
+    def page(self, dict_type_id):
+        query = db.session.query(SysDictDataModel).filter(SysDictDataModel.dict_type_id == dict_type_id, SysDictDataModel.deleted == 0)
         return self.query_page(query)
     
     def save(self, vo):

@@ -16,3 +16,6 @@ class SysMenuModel(SysBaseModel, db.Model):
     open_style = Column(Integer, comment="打开方式   0：内部   1：外部")
     icon = Column(String(50), comment="菜单图标")
     sort = Column(Integer, default=0, comment="排序")
+
+    parent_name = ''
+    children = []
