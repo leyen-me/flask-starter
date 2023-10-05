@@ -64,7 +64,7 @@ class Result:
         return __obj__
 
     @classmethod
-    def ok(cls, data):
+    def ok(cls, data=None):
         res = Result()
         res.data = data
         return cls.handle(res)

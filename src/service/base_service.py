@@ -1,6 +1,6 @@
 import os
 import uuid
-from flask import request, g
+from flask import request, g, make_response, send_file
 import pandas as pd
 from sqlalchemy import or_
 
@@ -92,4 +92,7 @@ class BaseService:
 
         df = pd.DataFrame(data_dict)
         df.to_excel(file_path, index=False)
-        return file_path
+
+        response = make_response(send_file(file_path, as_attachment=True))
+        response.headers['Access-Control-Expose-Headers'] = 'Content-Disposition'
+        return response

@@ -1,6 +1,6 @@
 import bcrypt
 import pandas as pd
-from flask import request, g
+from flask import request, g, send_file
 from sqlalchemy import func
 
 from db import db
@@ -209,10 +209,7 @@ class SysUserService(BaseService):
                 models.append(SysUserModel(**model_dict))
         db.session.bulk_save_objects(models)
         db.session.commit()
-    
-    def export(self):
-        return super().export()
-    
+        
     def role_user_page(self):
         # 非必传参数
         username = request.args.get('username')

@@ -52,7 +52,7 @@ def delete():
     curr_user_id = g.user["id"]
     return Result.ok(SysUserService().delete(curr_user_id, id_list))
 
-@sys_user_controller.route("/import",methods=["POST"])
+@sys_user_controller.route("/import", methods=["POST"])
 @has_authority("sys:user:import")
 def importExcel():
     if 'file' in request.files:
@@ -64,7 +64,7 @@ def importExcel():
         SysUserService().import_by_excel(file_path)
     return Result.ok()
 
-@sys_user_controller.route("/export",methods=["GET"])
+@sys_user_controller.route("/export", methods=["GET"])
 @has_authority("sys:user:export")
 def export():
-    return Result.ok(SysUserService().export())
+    return SysUserService().export()
