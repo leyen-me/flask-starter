@@ -6,8 +6,8 @@ class Initialize:
     @classmethod
     def init(cls):
         # 视情况创建表和初始化数据
-        # cls.create_table()
-        # cls.init_data()
+        cls.create_table()
+        cls.init_data()
         pass
 
     @classmethod

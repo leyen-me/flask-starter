@@ -1,10 +1,9 @@
 import os
-import yaml
 
+# 生产环境，自动切换为 production_config
 if 'gunicorn' in os.environ.get('SERVER_SOFTWARE', ''):
-    config_path = os.path.join(os.getcwd(), "config/config.production.yml")
+    from .production_config import CONFIG as _CONFIG
 else:
-    config_path = os.path.join(os.getcwd(), "config/config.yml")
+    from .development_config import CONFIG as _CONFIG
 
-with open(config_path, 'r', encoding="utf-8") as file:
-    CONFIG = yaml.safe_load(file)
+CONFIG = _CONFIG

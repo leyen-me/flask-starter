@@ -75,13 +75,25 @@ python main.py
 pip freeze > requirements.txt
 ```
 
-### 服务器部署
+### 支持Dockerfile部署（不包含mysql和redis环境）
 ```
 构建镜像
 docker build -t flask-starter .
 
 运行容器
 docker run -dit --name flask-starter-demo -p 8080:8080 flask-starter
+```
+
+### 支持Docker-compose一键部署（包含mysql和redis环境）
+```
+构建镜像
+docker-compose build --no-cache
+
+运行容器
+docker-compose up -d
+
+移除容器
+docker-compose down
 ```
 
 ### 代码生成器

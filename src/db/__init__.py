@@ -12,7 +12,6 @@ db = SQLAlchemy()
 
 
 # =========================================缓 存 START=========================================#
-redis_pool = r.ConnectionPool(host=CONFIG["REDIS"]["HOST"], port=CONFIG["REDIS"]["PORT"],
-                              db=CONFIG["REDIS"]["DB"], password=CONFIG["REDIS"]["PASSWORD"])
+redis_pool = r.ConnectionPool(host=CONFIG["REDIS"]["HOST"], port=CONFIG["REDIS"]["PORT"], db=CONFIG["REDIS"]["DB"])
 redis = r.Redis(connection_pool=redis_pool)
 # =========================================缓 存 E N D=========================================#

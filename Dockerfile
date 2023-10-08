@@ -11,6 +11,8 @@ WORKDIR /flask-starter
 COPY ./requirements.txt /flask-starter
 COPY ./src /flask-starter
 
+VOLUME ["/flask-starter/static"]
+
 # 安装依赖
 RUN pip install gunicorn==20.1.0 -i https://mirrors.cloud.tencent.com/pypi/simple
 RUN pip install -r requirements.txt -i https://mirrors.cloud.tencent.com/pypi/simple

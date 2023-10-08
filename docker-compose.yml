@@ -1,0 +1,52 @@
+version: "3.8"
+
+services:
+
+  # mysql
+  flask-starter-mysql:
+    image: mysql
+    container_name: flask-starter-mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: zKmv4k3p
+      MYSQL_DATABASE: demo
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - flask-starter-net
+  
+  # redis
+  flask-starter-redis:
+    image: redis
+    container_name: flask-starter-redis
+    restart: always
+    ports: 
+      - "6379:6379"
+    environment:
+      TZ: Asia/Shanghai
+    networks:
+      - flask-starter-net
+  
+  # app
+  flask-starter-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: flask-starter-app
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - /root/flask-starter:/flask-starter/static
+    networks:
+      - flask-starter-net
+    depends_on:
+      - flask-starter-mysql
+      - flask-starter-redis
+
+# net
+networks:
+  flask-starter-net:
+    name: flask-starter-net
