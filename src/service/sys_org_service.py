@@ -1,3 +1,4 @@
+from sqlalchemy import select
 from sqlalchemy.orm import aliased
 
 from db import db
@@ -10,18 +11,13 @@ from service import BaseService
 class SysOrgService(BaseService):
 
     def get_list(self):
-        t1 = aliased(SysOrgModel)
         t2 = aliased(SysOrgModel)
-        main_query = (
-            db.session.query(t1, t2.name.label("parent_name"))
-            .filter(t1.deleted == 0)
-            .filter(t1.pid == t2.id)
-            .order_by(t1.pid.asc())
-            .order_by(t1.sort.asc())
-        )
-        main_query = self.get_query_by_data_scope(main_query, t1, 'id')
+        subquery = select(t2.name).where(t2.id == SysOrgModel.pid).label("parent_name")
+        # 主查询
+        main_query = db.session.query(SysOrgModel, subquery).filter(SysOrgModel.deleted == 0).order_by(SysOrgModel.sort.asc())
+        main_query = self.get_query_by_data_scope(main_query, SysOrgModel, 'id')
         results = main_query.all()
-
+        
         org_objects = []
         for res in results:
             result = res[0]
@@ -35,10 +31,10 @@ class SysOrgService(BaseService):
 
     def info(self, org_id):
         org = db.session.query(SysOrgModel).filter(SysOrgModel.id == org_id, SysOrgModel.deleted == 0).one()
-        # 获取上级机构名称
-        p_org = db.session.query(SysOrgModel).filter(SysOrgModel.id == org.pid, SysOrgModel.deleted == 0).one()
-
-        org.parent_name = p_org.name
+        if(org.pid != 0):
+            # 获取上级机构名称
+            p_org = db.session.query(SysOrgModel).filter(SysOrgModel.id == org.pid, SysOrgModel.deleted == 0).one()
+            org.parent_name = p_org.name
         return org
 
     def save(self, vo):

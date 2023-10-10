@@ -10,7 +10,7 @@ sys_dict_type_controller = Controller("sys_dict_type", __name__, url_prefix='/sy
 def page():
     return Result.ok(SysDictTypeService().page())
 
-@sys_dict_type_controller.route("/list/sql", methods=['GET'])
+@sys_dict_type_controller.route("/sql/list", methods=['GET'])
 @has_authority("sys:dict:page")
 def list_sql():
     id = request.args.get('id')

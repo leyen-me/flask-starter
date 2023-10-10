@@ -244,7 +244,7 @@ class Initialize:
 
         # =========================================创建参数START=========================================#
         param_list = [
-            SysParamsModel(param_name="用户登录-验证码开关", param_type=1, param_key="LOGIN_CAPTCHA", param_value="false", remark="是否开启验证码（true：开启，false：关闭）", creator=super_admin.id, updater=super_admin.id)
+            SysParamsModel(id=1, param_name="用户登录-验证码开关", param_type=1, param_key="LOGIN_CAPTCHA", param_value="false", remark="是否开启验证码（true：开启，false：关闭）", creator=super_admin.id, updater=super_admin.id)
         ]
         for param in param_list:
             cls.create_data_with_none(param)

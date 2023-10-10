@@ -22,7 +22,8 @@ class SysPostService(BaseService):
         status      = request.args.get('status')
         if status:
             query = query.filter(SysPostModel.status == status)
-            
+        
+        query = query.filter(SysPostModel.deleted == 0)
         return self.query_page(query)
     
     def get_list(self):
