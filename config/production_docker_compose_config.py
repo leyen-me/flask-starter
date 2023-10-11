@@ -15,12 +15,12 @@ CONFIG = {
         ]
     },
     "REDIS": {
-        "HOST": "localhost",
+        "HOST": "flask-starter-redis",
         "PORT": 6379,
         "DB": 0
     },
     "SQLALCHEMY": {
-        "DATABASE_URI": f"mysql+pymysql://demo:zKmv4k3p@localhost:3306/demo?charset=utf8",
+        "DATABASE_URI": f"mysql+pymysql://root:zKmv4k3p@flask-starter-mysql:3306/demo?charset=utf8",
         "POOL_SIZE": 10,
         "POOL_TIMEOUT": 30,
         "POOL_RECYCLE": 3600,
