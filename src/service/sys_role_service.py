@@ -56,7 +56,7 @@ class SysRoleService(BaseService):
         db.session.commit()
 
         # 更新角色数据权限关系
-        if vo['data_scope'] == SysDataScopeEnum.CUSTOM.value:
+        if int(vo['data_scope']) == SysDataScopeEnum.CUSTOM.value:
             SysRoleDataScopeService().save_or_update(vo['id'], vo['org_id_list'])
         else:
             SysRoleDataScopeService().delete_by_role_id_list([vo['id']])
