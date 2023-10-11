@@ -72,7 +72,7 @@ class BaseService:
     def export(self):
         file_folder = os.path.join(CONFIG['APP']['STATIC_FOLDER'])
         file_name = str(uuid.uuid4()) + ".xlsx"
-        file_path = os.path.join(os.getcwd(), file_folder +"\\"+file_name)
+        file_path = os.path.join(os.getcwd(), file_folder, file_name)
 
         fields = self.model_class.__table__.columns.keys()
         fields_desc = {}

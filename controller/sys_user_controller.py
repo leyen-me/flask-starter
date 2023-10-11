@@ -59,7 +59,7 @@ def importExcel():
         file = request.files['file']
         file_name = str(uuid.uuid4()) + os.path.splitext(file.filename)[-1]
         file_folder = os.path.join(CONFIG['APP']['STATIC_FOLDER'])
-        file_path = os.path.join(os.getcwd(), file_folder +"\\"+file_name)
+        file_path = os.path.join(os.getcwd(), file_folder, file_name)
         file.save(file_path)
         SysUserService().import_by_excel(file_path)
     return Result.ok()
