@@ -8,8 +8,7 @@ ENV TZ=Asia/Shanghai
 # 创建工作目录，拷贝源码
 RUN mkdir -p /flask-starter
 WORKDIR /flask-starter
-COPY ./requirements.txt /flask-starter
-COPY ./src /flask-starter
+COPY . /flask-starter
 
 VOLUME ["/flask-starter/static"]
 

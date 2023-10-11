@@ -65,8 +65,6 @@ pip install -r requirements.txt
 激活虚拟环境
 venv\Scripts\activate
 
-cd src
-
 python main.py
 ```
 
@@ -112,7 +110,5 @@ class SysXxxModel(SysBaseModel, db.Model):
 
 #### 运行命令(自动导入并生成service和controller)
 ```
-cd src
-
 python generator/code_generator.py
 ```
