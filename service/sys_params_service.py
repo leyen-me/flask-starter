@@ -58,7 +58,7 @@ class SysParamsService(BaseService):
     def get_param_key(self, param_key):
         value = redis.hget(RedisKeys.getParamKey(), param_key)
         if not value is None:
-            return str(value)
+            return str(value.decode('utf-8'))
         # 如果缓存没有，则查询数据库
         res = db.session.query(SysParamsModel).filter(SysParamsModel.param_key == param_key, SysParamsModel.deleted == 0).one_or_none()
         if not res:

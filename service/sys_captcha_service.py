@@ -76,7 +76,7 @@ class SysCaptchaService():
             return True
         if not (key and code):
             return False
-        captcha = redis.get(RedisKeys.getCaptchaKey(key))
+        captcha = redis.get(RedisKeys.getCaptchaKey(key)).decode('utf-8')
         if captcha:
             redis.delete(RedisKeys.getCaptchaKey(key))
         return str(captcha).lower() == str(code).lower()
