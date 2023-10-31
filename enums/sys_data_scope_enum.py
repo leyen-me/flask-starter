@@ -1,7 +1,6 @@
 from enum import Enum
 
 
-
 class SysDataScopeEnum(Enum):
     # 全部数据
     ALL = 0

@@ -1,12 +1,11 @@
-import socket
-
 CONFIG = {
+    "ENV": "production",
     "APP": {
         "PORT": 8080,
         "STATIC_FOLDER": "static",
         "TOKEN_NAME": "Authorization",
         "TOKEN_EXPIRE": 86400,
-        "AUTH_WHITE_LIST":[
+        "AUTH_WHITE_LIST": [
             "/favicon.ico",
             "/static",
             "/sys/auth/login",

@@ -1,7 +1,6 @@
 from enum import Enum
 
 
-
 class SysLoginStatusEnum(Enum):
     # 登录失败
     FAIL = 0

@@ -24,15 +24,15 @@ class SysUserTokenService(BaseService):
             self.update_cache_auth(user.access_token)
     
     def update_cache_auth(self, access_token):
-        user = redis.get(RedisKeys.getAccessTokenKey(access_token))
+        user = redis.get(RedisKeys.get_access_token_key(access_token))
         _user = json.loads(user)
         # 用户不存在
         if user is None:
             return
         # 查询过期时间
-        t = redis.ttl(RedisKeys.getAccessTokenKey(access_token))
+        t = redis.ttl(RedisKeys.get_access_token_key(access_token))
         if t <= 0:
             return
         userinfo = SysUserDetailsService().get_user_details(_user['id'])
         userinfo = json.dumps(Result.handle(userinfo))
-        redis.set(RedisKeys.getAccessTokenKey(access_token), userinfo, t)
+        redis.set(RedisKeys.get_access_token_key(access_token), userinfo, t)

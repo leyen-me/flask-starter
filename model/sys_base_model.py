@@ -1,8 +1,9 @@
 from sqlalchemy import Column, BigInteger, Integer, DateTime
 from datetime import datetime
+from sqlalchemy import event
+from flask import g
 
 from db import db
-
 
 
 class SysBaseModel(db.Model):
@@ -16,3 +17,18 @@ class SysBaseModel(db.Model):
     updater = Column(BigInteger, comment="更新者")
     create_time = Column(DateTime, default=datetime.now(), comment="创建时间")
     update_time = Column(DateTime, default=datetime.now(), comment="更新时间")
+
+
+@event.listens_for(SysBaseModel, "before_insert", propagate=True)
+def before_insert_listener(mapper, connection, model):
+    model.id = None if not model.id else model.id
+    model.creator = g.user["id"] if model.creator is None else model.creator
+    model.updater = g.user["id"] if model.updater is None else model.updater
+
+
+@event.listens_for(SysBaseModel, 'before_update', propagate=True)
+def before_update_listener(mapper, connection, model):
+    if (str(type(model.version)) == "<class 'int'>"):
+        model.version = model.version + 1
+    model.updater = g.user["id"]
+    model.update_time = datetime.now()

@@ -61,7 +61,7 @@ class SysCaptchaService():
         code = self.generate_code(5)
         base64_img = self.generate_image(code, 150, 40, 30)
         # 将key和code缓存到缓存服务器
-        redis.set(RedisKeys.getCaptchaKey(key), code, 300)
+        redis.set(RedisKeys.get_captcha_key(key), code, 300)
         return {
             "key": key,
             "image": base64_img
@@ -76,7 +76,7 @@ class SysCaptchaService():
             return True
         if not (key and code):
             return False
-        captcha = redis.get(RedisKeys.getCaptchaKey(key)).decode('utf-8')
+        captcha = redis.get(RedisKeys.get_captcha_key(key)).decode('utf-8')
         if captcha:
-            redis.delete(RedisKeys.getCaptchaKey(key))
+            redis.delete(RedisKeys.get_captcha_key(key))
         return str(captcha).lower() == str(code).lower()

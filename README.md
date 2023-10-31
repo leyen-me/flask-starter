@@ -6,7 +6,7 @@
 ```
 Flask-Starter是一套全部开源的快速开发平台，毫无保留给个人及企业免费使用。
 感谢Maku，RuoYi等框架提供的灵感来源。
-前端采用Vue3, Vite, TypeScript, Pinia全家桶生态。
+前端采用Vue3, Vite, JavaScript, Pinia全家桶生态。
 后端采用 Python 语言 Flask 框架以及强大的 Sqlalchemy
 支持加载动态权限菜单，多方式轻松权限控制。
 目录结构和编程风格偏向于Java层面，让长期使用Java开发的人员，开箱即用。

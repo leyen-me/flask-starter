@@ -3,10 +3,12 @@ from flask import g
 from service import SysLogOperateService
 import time
 
+
 def operate_log(type):
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
+            global result, status
             start_time = time.time()
             try:
                 result = func(*args, **kwargs)
@@ -20,7 +22,7 @@ def operate_log(type):
                 duration = int((end_time - start_time) * 1000)
                 data = {
                     "operate_type": type.value,
-                    "duration":duration,
+                    "duration": duration,
                     "user_id": g.user['id'],
                     "real_name": g.user['real_name'],
                     "result_msg": str(result),
@@ -28,5 +30,7 @@ def operate_log(type):
                 }
                 SysLogOperateService().save(data)
             return result
+
         return wrapper
+
     return decorator

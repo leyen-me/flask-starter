@@ -1,7 +1,6 @@
 from enum import Enum
 
 
-
 class SysOperateTypeEnum(Enum):
     # 查询
     GET = 1

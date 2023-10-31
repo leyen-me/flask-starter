@@ -1,7 +1,6 @@
 from enum import Enum
 
 
-
 class SysLoginOperationEnum(Enum):
     # 登录成功
     LOGIN_SUCCESS = 0

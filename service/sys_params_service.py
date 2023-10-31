@@ -31,7 +31,7 @@ class SysParamsService(BaseService):
         db.session.add(param)
         db.session.commit()
         # 保存到缓存
-        redis.hset(RedisKeys.getParamKey(), param.param_key, param.param_value)
+        redis.hset(RedisKeys.get_param_key(), param.param_key, param.param_value)
 
     def update(self, vo):
         param = db.session.query(SysParamsModel).filter(SysParamsModel.id == vo['id'], SysParamsModel.deleted == 0).one()
@@ -40,7 +40,7 @@ class SysParamsService(BaseService):
             if res:
                 raise Exception("参数键已存在")
             # 删除之前的缓存信息
-            redis.hdel(RedisKeys.getParamKey(), param.param_key)
+            redis.hdel(RedisKeys.get_param_key(), param.param_key)
 
         # 修改数据
         for key, value in vo.items():
@@ -48,15 +48,15 @@ class SysParamsService(BaseService):
         db.session.commit()
 
         # 保存到缓存
-        redis.hset(RedisKeys.getParamKey(), param.param_key, param.param_value)
+        redis.hset(RedisKeys.get_param_key(), param.param_key, param.param_value)
 
     def delete(self, id_list):
         model_list = super().remove_by_ids(id_list)
         for model in model_list:
-            redis.hdel(RedisKeys.getParamKey(), model.param_key)
+            redis.hdel(RedisKeys.get_param_key(), model.param_key)
     
     def get_param_key(self, param_key):
-        value = redis.hget(RedisKeys.getParamKey(), param_key)
+        value = redis.hget(RedisKeys.get_param_key(), param_key)
         if not value is None:
             return str(value.decode('utf-8'))
         # 如果缓存没有，则查询数据库
@@ -64,5 +64,5 @@ class SysParamsService(BaseService):
         if not res:
             raise Exception("参数值不存在，paramKey：" + param_key)
         # 保存到缓存
-        redis.hset(RedisKeys.getParamKey(), res.param_key, res.param_value)
+        redis.hset(RedisKeys.get_param_key(), res.param_key, res.param_value)
         return res.param_value

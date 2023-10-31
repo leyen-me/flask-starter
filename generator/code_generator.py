@@ -1,14 +1,14 @@
 import os
 import re
 
-class CodeGenerator:
 
+class CodeGenerator:
     MODEL_DIR = "model"
     CONTROLLER_DIR = "controller"
     SERVICE_DIR = "service"
 
     # 并不是所有的服务都需要controller，比如中间表，所以要忽略生成的controller
-    CONTROLLER_INGORE = [
+    CONTROLLER_IGNORE = [
         "sys_role_data_scope_controller",
         "sys_role_menu_controller",
         "sys_user_post_controller",
@@ -53,6 +53,7 @@ class {upper_name}Service(BaseService):
     def delete(self, id_list):
         self.remove_by_ids(id_list)
 """
+
     def get_controller_template(self, upper_name, underline_name, url_name, auth_name):
         return f"""from flask import Blueprint as Controller, request
 
@@ -90,7 +91,7 @@ def delete():
     body = request.json
     return Result.ok({upper_name}Service().delete(body))
 """
-    
+
     def run(self):
         model_path = os.path.join(os.getcwd(), f"{self.MODEL_DIR}")
         file_names = self.get_filename_list(model_path)
@@ -100,7 +101,7 @@ def delete():
                 # 判断__init__.py中是否添加了
                 # 没有添加，给他追加一下
                 underline_name = "_".join(file_name_split_list[:-1])
-                upper_name  = "".join([item.capitalize() for item in file_name_split_list[:-1]])
+                upper_name = "".join([item.capitalize() for item in file_name_split_list[:-1]])
                 url_name = "/" + "/".join(file_name_split_list[:-1])
                 auth_name = ":".join(file_name_split_list[:-1])
                 service_file_name = underline_name + f"_{self.SERVICE_DIR}.py"
@@ -109,7 +110,7 @@ def delete():
                 self.insert_import_model(underline_name, upper_name)
                 self.generate_service(upper_name, service_file_name)
                 self.insert_import_service(underline_name, upper_name)
-                if not (underline_name + "_" + self.CONTROLLER_DIR) in self.CONTROLLER_INGORE:
+                if not (underline_name + "_" + self.CONTROLLER_DIR) in self.CONTROLLER_IGNORE:
                     self.generate_controller(controller_file_name, upper_name, underline_name, url_name, auth_name)
                     self.insert_import_controller(underline_name, upper_name)
 
@@ -124,17 +125,18 @@ def delete():
                 if file != '__init__.py' and file != 'sys_base_model.py':
                     file_names.append(file)
         return file_names
-    
+
     def insert_import_model(self, underline_name, upper_name):
         model_init_path = os.path.join(os.getcwd(), f"{self.MODEL_DIR}/__init__.py")
         import_statement = f"\nfrom .{underline_name}_model import {upper_name}Model as {upper_name}Model\n"
         with open(model_init_path, "r", encoding="utf-8") as file:
             content = file.read()
         # 使用正则表达式检查是否已经导入
-        pattern = re.compile(f"from\\s+\\.{underline_name}_model\\s+import\\s+{upper_name}Model\\s+as\\s+{upper_name}Model")
+        pattern = re.compile(
+            f"from\\s+\\.{underline_name}_model\\s+import\\s+{upper_name}Model\\s+as\\s+{upper_name}Model")
         if not pattern.search(content):
-                with open(model_init_path, "a") as file:
-                    file.write(import_statement)
+            with open(model_init_path, "a") as file:
+                file.write(import_statement)
 
     def insert_import_service(self, underline_name, upper_name):
         model_init_path = os.path.join(os.getcwd(), f"{self.SERVICE_DIR}/__init__.py")
@@ -142,7 +144,8 @@ def delete():
         with open(model_init_path, "r", encoding="utf-8") as file:
             content = file.read()
         # 使用正则表达式检查是否已经导入
-        pattern = re.compile(f"from\\s+\\.{underline_name}_service\\s+import\\s+{upper_name}Service\\s+as\\s+{upper_name}Service")
+        pattern = re.compile(
+            f"from\\s+\\.{underline_name}_service\\s+import\\s+{upper_name}Service\\s+as\\s+{upper_name}Service")
         if not pattern.search(content):
             with open(model_init_path, "a") as file:
                 file.write(import_statement)
@@ -153,7 +156,8 @@ def delete():
         with open(model_init_path, "r", encoding="utf-8") as file:
             content = file.read()
         # 使用正则表达式检查是否已经导入
-        pattern = re.compile(f"from\\s+\\.{underline_name}_{self.CONTROLLER_DIR}\\s+import\\s+{underline_name}_{self.CONTROLLER_DIR}\\s+as\\s+{underline_name}_{self.CONTROLLER_DIR}")
+        pattern = re.compile(
+            f"from\\s+\\.{underline_name}_{self.CONTROLLER_DIR}\\s+import\\s+{underline_name}_{self.CONTROLLER_DIR}\\s+as\\s+{underline_name}_{self.CONTROLLER_DIR}")
         if not pattern.search(content):
             with open(model_init_path, "a") as file:
                 file.write(import_statement)
@@ -173,8 +177,6 @@ def delete():
             # 文件不存在，创建文件并填充内容
             with open(file_path, 'w', encoding='utf-8') as file:
                 file.write(self.get_controller_template(upper_name, underline_name, url_name, auth_name))
-
-
 
 
 if __name__ == '__main__':
