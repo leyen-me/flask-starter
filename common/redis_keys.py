@@ -11,3 +11,8 @@ class RedisKeys:
     @classmethod
     def get_param_key(cls):
         return "system:params"
+    
+    @classmethod
+    def get_dict_key(cls):
+        return "system:dict"
+

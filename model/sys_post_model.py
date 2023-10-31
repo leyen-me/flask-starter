@@ -1,11 +1,9 @@
 from sqlalchemy import Column, Integer, String
 
-from db import db
 from .sys_base_model import SysBaseModel
 
 
-
-class SysPostModel(SysBaseModel, db.Model):
+class SysPostModel(SysBaseModel):
     __tablename__ = "sys_post"
 
     post_code = Column(String(100), comment="岗位编码")

@@ -5,6 +5,7 @@ from db import db
 from model import SysLogOperateModel
 from service import BaseService
 
+
 class SysLogOperateService(BaseService):
 
     def page(self):
@@ -18,11 +19,9 @@ class SysLogOperateService(BaseService):
         req_uri = request.args.get('req_uri')
         if req_uri:
             query = query.filter(SysLogOperateModel.req_uri.like(f"%{req_uri}%"))
-        # module = request.args.get('module')
-        # if module:
-        #     query = query.filter(SysLogOperateModel.module.like(f"%{module}%"))
+        query = query.order_by(SysLogOperateModel.create_time.desc())
         return self.query_page(query)
-    
+
     def save(self, vo):
         ip = request.remote_addr
         req_method = request.method
@@ -30,9 +29,9 @@ class SysLogOperateService(BaseService):
         req_params = json.dumps(dict(request.args))
         user_agent = request.headers.get('User-Agent')
         model = SysLogOperateModel(
-                            req_uri=req_uri, req_method=req_method, req_params= req_params, 
-                            ip=ip, user_agent=user_agent, operate_type=vo['operate_type'], 
-                            duration=vo['duration'], user_id=vo['user_id'], real_name=vo['real_name'], 
-                            result_msg=vo['result_msg'], status=vo['status'])
+            req_uri=req_uri, req_method=req_method, req_params=req_params,
+            ip=ip, user_agent=user_agent, operate_type=vo['operate_type'],
+            duration=vo['duration'], user_id=vo['user_id'], real_name=vo['real_name'],
+            result_msg=vo['result_msg'], status=vo['status'])
         db.session.add(model)
         db.session.commit()

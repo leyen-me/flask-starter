@@ -1,13 +1,11 @@
 from sqlalchemy import Column, Integer, String
 
-from db import db
 from .sys_base_model import SysBaseModel
 
 
-
-class SysParamsModel(SysBaseModel, db.Model):
+class SysParamsModel(SysBaseModel):
     __tablename__ = "sys_params"
-    
+
     param_name = Column(String(100), comment="参数名称")
     param_type = Column(Integer, nullable=False, comment="系统参数   0：否   1：是")
     param_key = Column(String(100), comment="参数键")

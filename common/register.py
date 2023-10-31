@@ -9,6 +9,7 @@ from db import db, redis
 from db.initialize import Initialize
 from schedule import scheduler
 from schedule.modules.demo_schedule import DemoSchedule
+from schedule.modules.dict_schedule import DictSchedule
 from apscheduler.triggers.cron import CronTrigger
 from common import RedisKeys, Result
 from enums import SysUserStatusEnum
@@ -47,6 +48,8 @@ class Register:
     def register_scheduler(cls, app):
         scheduler.init_app(app)
         scheduler.add_job(id='time_schedule', func=DemoSchedule.run, trigger=CronTrigger.from_crontab("28 10 * * *"))
+        DictSchedule.run()
+        scheduler.add_job(id='dict_schedule', func=DictSchedule.run, trigger=CronTrigger.from_crontab("00 00 * * *"))
         scheduler.start()
 
     # 开启接口鉴权

@@ -1,10 +1,9 @@
 from sqlalchemy import Column, Integer, String, Column
 
-from db import db
 from .sys_base_model import SysBaseModel
 
 
-class SysDictTypeModel(SysBaseModel, db.Model):
+class SysDictTypeModel(SysBaseModel):
     __tablename__ = "sys_dict_type"
     
     dict_type = Column(String(100), nullable=False, comment="字典类型")

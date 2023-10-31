@@ -1,17 +1,11 @@
 from sqlalchemy import Column, BigInteger, Integer, String, Text
 
-from db import db
 from .sys_base_model import SysBaseModel
 
 
-
 # 操作日志表
-class SysLogOperateModel(SysBaseModel, db.Model):
+class SysLogOperateModel(SysBaseModel):
     __tablename__ = "sys_log_operate"
-    
-    # module = Column(String(100), comment="模块名")
-    # name = Column(String(100), comment="操作名")
-    # address = Column(String(32), comment="登录地点")
 
     req_uri = Column(String(500), comment="请求URI")
     req_method = Column(String(20), comment="请求方法")

@@ -16,7 +16,11 @@ def page():
 @sys_log_login_controller.route("/export", methods=['GET'])
 @has_authority("sys:log:login")
 def export():
-    return SysLogLoginService().export()
+    trans_dic = {
+        "operation": "login_operation",
+        "status": "success_fail"
+    }
+    return SysLogLoginService().export(trans_dic=trans_dic)
 
 
 @sys_log_login_controller.route("/", methods=['POST'])

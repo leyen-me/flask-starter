@@ -6,7 +6,6 @@ from model import SysDictTypeModel, SysDictDataModel
 from service import BaseService
 
 
-
 class SysDictTypeService(BaseService):
 
     def page(self):
@@ -19,12 +18,14 @@ class SysDictTypeService(BaseService):
         if dict_name:
             query = query.filter(SysDictTypeModel.dict_name.like(f"%{dict_name}%"))
         return self.query_page(query)
-    
+
     """
     select id as dictValue, name as dictLabel from sys_menu where deleted = 0
     """
+
     def get_dict_sql(self, id):
-        dict_type = db.session.query(SysDictTypeModel).filter(SysDictTypeModel.id == id, SysDictTypeModel.deleted == 0).one()
+        dict_type = db.session.query(SysDictTypeModel).filter(SysDictTypeModel.id == id,
+                                                              SysDictTypeModel.deleted == 0).one()
         try:
             res = db.session().execute(text(dict_type.dict_sql)).fetchall()
             return res
@@ -54,7 +55,8 @@ class SysDictTypeService(BaseService):
         db.session.commit()
 
     def update(self, vo):
-        dict_type = db.session.query(SysDictTypeModel).filter(SysDictTypeModel.id == vo['id'], SysDictTypeModel.deleted == 0).one()
+        dict_type = db.session.query(SysDictTypeModel).filter(SysDictTypeModel.id == vo['id'],
+                                                              SysDictTypeModel.deleted == 0).one()
         for key, value in vo.items():
             setattr(dict_type, key, value)
         db.session.commit()

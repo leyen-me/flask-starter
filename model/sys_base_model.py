@@ -28,7 +28,7 @@ def before_insert_listener(mapper, connection, model):
 
 @event.listens_for(SysBaseModel, 'before_update', propagate=True)
 def before_update_listener(mapper, connection, model):
-    if (str(type(model.version)) == "<class 'int'>"):
+    if isinstance(model.version, int):
         model.version = model.version + 1
     model.updater = g.user["id"]
     model.update_time = datetime.now()

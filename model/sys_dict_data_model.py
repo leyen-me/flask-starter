@@ -1,10 +1,9 @@
 from sqlalchemy import Column, BigInteger, Integer, String
 
-from db import db
 from .sys_base_model import SysBaseModel
 
 
-class SysDictDataModel(SysBaseModel, db.Model):
+class SysDictDataModel(SysBaseModel):
     __tablename__ = "sys_dict_data"
     
     dict_type_id = Column(BigInteger, nullable=False, comment="字典类型ID")

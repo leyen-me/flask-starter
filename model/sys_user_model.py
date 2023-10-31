@@ -1,12 +1,11 @@
 from sqlalchemy import Column, BigInteger, Integer, String
 
-from db import db
 from .sys_base_model import SysBaseModel
 
 
-
-class SysUserModel(SysBaseModel, db.Model):
+class SysUserModel(SysBaseModel):
     __tablename__ = "sys_user"
+
     username = Column(String(50), nullable=False, comment="用户名")
     password = Column(String(100), comment="密码")
     real_name = Column(String(50), comment="姓名")
@@ -18,6 +17,7 @@ class SysUserModel(SysBaseModel, db.Model):
     super_admin = Column(Integer, default=0, comment="超级管理员")
     status = Column(Integer, comment="状态")
 
+    # 扩展属性
     role_id_list = []
     post_id_list = []
     data_scope_list = []

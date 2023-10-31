@@ -5,26 +5,31 @@ from decorator import has_authority, operate_log
 
 sys_dict_data_controller = Controller("sys_dict_data", __name__, url_prefix='/sys/dict/data')
 
+
 @sys_dict_data_controller.route("/page", methods=['GET'])
 @has_authority("sys:dict:page")
 def page():
     dict_type_id = request.args.get("dict_type_id")
     return Result.ok(SysDictDataService().page(dict_type_id))
 
+
 @sys_dict_data_controller.route("/<int:id>", methods=['GET'])
 @has_authority("sys:dict:info")
 def info(id):
     return Result.ok(SysDictDataService().info(id))
+
 
 @sys_dict_data_controller.route("/", methods=['POST'])
 @has_authority("sys:dict:save")
 def save():
     return Result.ok(SysDictDataService().save(request.json))
 
+
 @sys_dict_data_controller.route("/", methods=['PUT'])
 @has_authority("sys:dict:update")
 def update():
     return Result.ok(SysDictDataService().update(request.json))
+
 
 @sys_dict_data_controller.route("/", methods=['DELETE'])
 @has_authority("sys:dict:delete")

@@ -1,5 +1,6 @@
 import os
 import uuid
+
 from flask import Blueprint as Controller, request, g
 
 from common import Result
@@ -65,18 +66,22 @@ def delete():
 
 @sys_user_controller.route("/import", methods=["POST"])
 @has_authority("sys:user:import")
-def importExcel():
-    if 'file' in request.files:
-        file = request.files['file']
-        file_name = str(uuid.uuid4()) + os.path.splitext(file.filename)[-1]
-        file_folder = os.path.join(CONFIG['APP']['STATIC_FOLDER'])
-        file_path = os.path.join(os.getcwd(), file_folder, file_name)
-        file.save(file_path)
-        SysUserService().import_by_excel(file_path)
+def import_excel():
+    trans_dic = {
+        "gender": "user_gender",
+        "super_admin": "user_super_admin",
+        "status": "user_status"
+    }
+    SysUserService().import_by_excel(trans_dic)
     return Result.ok()
 
 
 @sys_user_controller.route("/export", methods=["GET"])
 @has_authority("sys:user:export")
 def export():
-    return SysUserService().export()
+    trans_dic = {
+        "gender": "user_gender",
+        "super_admin": "user_super_admin",
+        "status": "user_status"
+    }
+    return SysUserService().export(trans_dic=trans_dic)

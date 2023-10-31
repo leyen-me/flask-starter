@@ -1,4 +1,3 @@
-import ipaddress
 from flask import request
 
 from db import db

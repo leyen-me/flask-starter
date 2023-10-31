@@ -1,11 +1,9 @@
 from sqlalchemy import Column, BigInteger, Integer, String
 
-from db import db
 from .sys_base_model import SysBaseModel
 
 
-
-class SysMenuModel(SysBaseModel, db.Model):
+class SysMenuModel(SysBaseModel):
     __tablename__ = "sys_menu"
 
     pid = Column(BigInteger, comment="上级ID，一级菜单为0")

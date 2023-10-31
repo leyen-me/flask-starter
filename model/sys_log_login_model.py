@@ -1,12 +1,11 @@
 from sqlalchemy import Column, Integer, String, Column
 
-from db import db
 from .sys_base_model import SysBaseModel
 
 
 
 #登录日志表
-class SysLogLoginModel(SysBaseModel, db.Model):
+class SysLogLoginModel(SysBaseModel):
     __tablename__ = "sys_log_login"
     
     username = Column(String(50), comment="用户名")

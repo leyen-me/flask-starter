@@ -1,11 +1,9 @@
 from sqlalchemy import Column, BigInteger
 
-from db import db
 from .sys_base_model import SysBaseModel
 
 
-
-class SysUserPostModel(SysBaseModel, db.Model):
+class SysUserPostModel(SysBaseModel):
     __tablename__ = "sys_user_post"
 
     user_id = Column(BigInteger, comment="用户ID")

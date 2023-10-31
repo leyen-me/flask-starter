@@ -1,11 +1,9 @@
 from sqlalchemy import Column, BigInteger
 
-from db import db
 from .sys_base_model import SysBaseModel
 
 
-
-class SysRoleMenuModel(SysBaseModel, db.Model):
+class SysRoleMenuModel(SysBaseModel):
     __tablename__ = "sys_role_menu"
 
     role_id = Column(BigInteger, comment="角色ID")
