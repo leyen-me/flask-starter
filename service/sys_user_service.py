@@ -15,7 +15,6 @@ class SysUserService(BaseService):
         res = db.session.query(SysUserModel).filter(SysUserModel.id == user_id, SysUserModel.deleted == 0).one()
         return res
 
-    # todo：添加数据权限
     def page(self):
         query = db.session.query(SysUserModel)
 
@@ -32,8 +31,7 @@ class SysUserService(BaseService):
             query = query.filter(SysUserModel.gender == gender)
 
         query = query.filter(SysUserModel.deleted == 0)
-        # org_name
-        return self.query_page(query)
+        return self.query_page(self.get_query_by_data_scope(query))
 
     def login(self, username, password):
         res = None
