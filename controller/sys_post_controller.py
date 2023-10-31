@@ -1,10 +1,8 @@
-import uuid
 from flask import Blueprint as Controller, request, g
+
 from common import Result
 from service import SysPostService
 from decorator import has_authority, operate_log
-import os
-from config import CONFIG
 
 sys_post_controller = Controller("sys_post", __name__, url_prefix='/sys/post')
 
@@ -24,8 +22,8 @@ def get_list():
 @sys_post_controller.route("/", methods=['POST'])
 @has_authority("sys:post:save")
 def save():
-    body = request.json
-    return Result.ok(SysPostService().save(body))
+    data = request.json
+    return Result.ok(SysPostService().save(data))
 
 
 @sys_post_controller.route("/<int:id>", methods=['GET'])
@@ -37,13 +35,12 @@ def info(id):
 @sys_post_controller.route("/", methods=['PUT'])
 @has_authority("sys:post:update")
 def update():
-    body = request.json
-    return Result.ok(SysPostService().update(body))
+    data = request.json
+    return Result.ok(SysPostService().update(data))
 
 
 @sys_post_controller.route("/", methods=["DELETE"])
 @has_authority("sys:post:delete")
 def delete():
-    # 批量删除，得删除列表
-    id_list = request.json
-    return Result.ok(SysPostService().delete(id_list))
+    data = request.json
+    return Result.ok(SysPostService().delete(data))

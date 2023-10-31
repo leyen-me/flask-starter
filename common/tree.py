@@ -26,17 +26,17 @@ class Tree:
                 else:
                     root_nodes.append(node)
         return root_nodes
-    
+
     @classmethod
-    def get_child_ids(cls, tree, target_id, result=None, target_id_isp = False):
+    def get_child_ids(cls, tree, target_id, result=None, target_id_isp=False):
         if result is None:
             result = []
         for item in tree:
-            if(target_id_isp):
+            if target_id_isp:
                 result.append(item['id'])
             else:
                 if item["id"] == target_id:
-                    cls.get_child_ids(item["children"] , target_id, result, True)
+                    cls.get_child_ids(item["children"], target_id, result, True)
                 else:
-                    cls.get_child_ids(item["children"] , target_id, result, target_id_isp)
+                    cls.get_child_ids(item["children"], target_id, result, target_id_isp)
         return result

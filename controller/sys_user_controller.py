@@ -1,12 +1,8 @@
-import os
-import uuid
-
 from flask import Blueprint as Controller, request, g
 
 from common import Result
 from service import SysUserService, SysUserRoleService, SysUserPostService
 from decorator import has_authority, operate_log
-from config import CONFIG
 from enums import SysOperateTypeEnum
 
 sys_user_controller = Controller("user", __name__, url_prefix='/sys/user')
@@ -19,7 +15,7 @@ def page():
     return Result.ok(SysUserService().page())
 
 
-@sys_user_controller.route("/<int:id>")
+@sys_user_controller.route("/<int:id>", methods=["GET"])
 @has_authority("sys:user:info")
 def get(id):
     res = SysUserService().get_by_id(id)
@@ -30,35 +26,35 @@ def get(id):
     return Result.ok(res)
 
 
-@sys_user_controller.route("/info")
+@sys_user_controller.route("/info", methods=["GET"])
 def info():
-    return Result.ok(g.user)
+    user = g.user
+    return Result.ok(user)
 
 
 @sys_user_controller.route("/password", methods=["PUT"])
 def password():
-    body = request.json
-    return Result.ok(SysUserService().update_password(body))
+    data = request.json
+    return Result.ok(SysUserService().update_password(data))
 
 
 @sys_user_controller.route("/", methods=["POST"])
 @has_authority("sys:user:save")
 def save():
-    body = request.json
-    return Result.ok(SysUserService().save(body))
+    data = request.json
+    return Result.ok(SysUserService().save(data))
 
 
 @sys_user_controller.route("/", methods=["PUT"])
 @has_authority("sys:user:update")
 def update():
-    body = request.json
-    return Result.ok(SysUserService().update(body))
+    data = request.json
+    return Result.ok(SysUserService().update(data))
 
 
 @sys_user_controller.route("/", methods=["DELETE"])
 @has_authority("sys:user:delete")
 def delete():
-    # 批量删除，得删除列表
     id_list = request.json
     curr_user_id = g.user["id"]
     return Result.ok(SysUserService().delete(curr_user_id, id_list))

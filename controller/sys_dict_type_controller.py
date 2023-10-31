@@ -1,4 +1,5 @@
 from flask import Blueprint as Controller, request
+
 from common import Result
 from service import SysDictTypeService
 from decorator import has_authority, operate_log
@@ -28,19 +29,22 @@ def info(id):
 @sys_dict_type_controller.route("/", methods=['POST'])
 @has_authority("sys:dict:save")
 def save():
-    return Result.ok(SysDictTypeService().save(request.json))
+    data = request.json
+    return Result.ok(SysDictTypeService().save(data))
 
 
 @sys_dict_type_controller.route("/", methods=['PUT'])
 @has_authority("sys:dict:update")
 def update():
-    return Result.ok(SysDictTypeService().update(request.json))
+    data = request.json
+    return Result.ok(SysDictTypeService().update(data))
 
 
 @sys_dict_type_controller.route("/", methods=['DELETE'])
 @has_authority("sys:dict:delete")
 def delete():
-    return Result.ok(SysDictTypeService().delete(request.json))
+    data = request.json
+    return Result.ok(SysDictTypeService().delete(data))
 
 
 @sys_dict_type_controller.route("/all")

@@ -21,9 +21,3 @@ def export():
         "status": "success_fail"
     }
     return SysLogLoginService().export(trans_dic=trans_dic)
-
-
-@sys_log_login_controller.route("/", methods=['POST'])
-@has_authority("sys:log:login")
-def save():
-    return Result.ok(SysLogLoginService().save('1', 11, 2))

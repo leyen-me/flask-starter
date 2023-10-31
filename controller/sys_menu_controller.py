@@ -1,4 +1,5 @@
 from flask import Blueprint as Controller, request, g
+
 from service import SysMenuService
 from common import Result
 from decorator import has_authority, operate_log
@@ -13,15 +14,15 @@ def nav():
 
 @sys_menu_controller.route("/authority", methods=['GET'])
 def authority():
-    return Result.ok(SysMenuService().get_user_authority(g.user))
+    user = g.user
+    return Result.ok(SysMenuService().get_user_authority(user))
 
 
 @sys_menu_controller.route("/list", methods=['GET'])
 @has_authority("sys:menu:list")
 def list():
-    # 菜单类型 0：菜单 1：按钮  2：接口  null：全部
-    mtype = request.args.get('type')
-    return Result.ok(SysMenuService().get_menu_list(mtype))
+    _type = request.args.get('type')
+    return Result.ok(SysMenuService().get_menu_list(_type))
 
 
 @sys_menu_controller.route("/<int:id>", methods=['GET'])
@@ -33,13 +34,15 @@ def info(id):
 @sys_menu_controller.route("/", methods=['POST'])
 @has_authority("sys:menu:save")
 def save():
-    return Result.ok(SysMenuService().save(request.json))
+    data = request.json
+    return Result.ok(SysMenuService().save(data))
 
 
 @sys_menu_controller.route("/", methods=['PUT'])
 @has_authority("sys:menu:update")
 def update():
-    return Result.ok(SysMenuService().update(request.json))
+    data = request.json
+    return Result.ok(SysMenuService().update(data))
 
 
 @sys_menu_controller.route("/<int:id>", methods=['DELETE'])

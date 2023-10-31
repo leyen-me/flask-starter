@@ -1,0 +1,3 @@
+ENV: test
+APP:
+  PORT: 8080

@@ -11,7 +11,7 @@ from schedule import scheduler
 from schedule.modules.demo_schedule import DemoSchedule
 from schedule.modules.dict_schedule import DictSchedule
 from apscheduler.triggers.cron import CronTrigger
-from common import RedisKeys, Result
+from common import RedisKeys, Result, PathUtil
 from enums import SysUserStatusEnum
 from controller import *
 
@@ -48,8 +48,11 @@ class Register:
     def register_scheduler(cls, app):
         scheduler.init_app(app)
         scheduler.add_job(id='time_schedule', func=DemoSchedule.run, trigger=CronTrigger.from_crontab("28 10 * * *"))
+
+        # 字典缓存，主要用于导入、导出时候的翻译
         DictSchedule.run()
         scheduler.add_job(id='dict_schedule', func=DictSchedule.run, trigger=CronTrigger.from_crontab("00 00 * * *"))
+
         scheduler.start()
 
     # 开启接口鉴权
@@ -57,14 +60,14 @@ class Register:
     def register_auth(cls, app):
         @app.before_request
         def before():
-            for white_path in CONFIG["APP"]["AUTH_WHITE_LIST"]:
-                if white_path in request.path:
-                    return
-            try:
-                access_token = request.headers[CONFIG["APP"]["TOKEN_NAME"]]
-            except:
+            # 检查白名单
+            if PathUtil.is_path_allowed(request.path, CONFIG["APP"]["AUTH_WHITE_LIST"]):
+                return
+            # 检查TOKEN_NAME
+            access_token = request.headers.get(CONFIG["APP"]["TOKEN_NAME"])
+            if access_token is None:
                 raise Exception("用户未登录")
-
+            # 去REDIS检查用户信息
             user_str = redis.get(RedisKeys.get_access_token_key(access_token))
             if user_str:
                 g.user = json.loads(user_str)

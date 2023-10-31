@@ -8,13 +8,11 @@ class Result:
     msg = 'success'
     data = None
 
-    """
-    处理返回时的序列化问题
-    """
-
     @classmethod
     def handle(cls, data):
-
+        """
+        处理返回时的序列化问题
+        """
         # 序列化数据库模型
         # 在构建数据库模型的时候，严禁使用metadata，query，registry属性
         if isinstance(data, db.Model):
