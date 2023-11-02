@@ -5,9 +5,6 @@ from logging.handlers import TimedRotatingFileHandler
 
 from config import CONFIG
 
-# 设置日志器的名字
-LOGGER_NAME = "FlaskStarterLogger"
-
 
 def setup_logger():
     """
@@ -15,7 +12,7 @@ def setup_logger():
     """
 
     sqlalchemy_logger = logging.getLogger('sqlalchemy.engine')
-    app_logger = logging.getLogger(LOGGER_NAME)
+    app_logger = logging.getLogger("app")
 
     if CONFIG['ENV'] == "development":
         app_logger.setLevel(logging.DEBUG)

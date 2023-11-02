@@ -76,20 +76,20 @@ def info(id):
 @{underline_name}_controller.route("/", methods=['POST'])
 @has_authority("{auth_name}:save")
 def save():
-    body = request.json
-    return Result.ok({upper_name}Service().save(body))
+    data = request.json
+    return Result.ok({upper_name}Service().save(data))
 
 @{underline_name}_controller.route("/", methods=['PUT'])
 @has_authority("{auth_name}:update")
 def update():
-    body = request.json
-    return Result.ok({upper_name}Service().update(body))
+    data = request.json
+    return Result.ok({upper_name}Service().update(data))
 
 @{underline_name}_controller.route("/", methods=['DELETE'])
 @has_authority("{auth_name}:delete")
 def delete():
-    body = request.json
-    return Result.ok({upper_name}Service().delete(body))
+    data = request.json
+    return Result.ok({upper_name}Service().delete(data))
 """
 
     def run(self):
