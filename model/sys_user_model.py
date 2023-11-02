@@ -15,7 +15,7 @@ class SysUserModel(SysBaseModel):
     mobile = Column(String(20), comment="手机号")
     org_id = Column(BigInteger, comment="机构ID")
     super_admin = Column(Integer, default=0, comment="超级管理员")
-    status = Column(Integer, comment="状态")
+    status = Column(Integer, default=1, comment="状态")
 
     # 扩展属性
     role_id_list = []

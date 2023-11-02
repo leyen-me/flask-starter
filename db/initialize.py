@@ -6,25 +6,34 @@ class Initialize:
 
     @classmethod
     def init(cls):
-        # 视情况创建表和初始化数据
+        """
+        初始化创建表
+        初始化填充数据
+        """
         cls.create_table()
         cls.init_data()
         pass
 
     @classmethod
     def create_table(cls):
+        """
+        创建表
+        """
         db.create_all()
 
     @classmethod
     def create_data_with_none(cls, model):
+        """
+        这个方法主要用来初始化数据，性能一般
+        默认添加的ID数据，尽量不要去修改他们的原始ID，修改后会被重置
+        """
         res = db.session.query(model.__class__).filter(getattr(model.__class__, 'id') == model.id).one_or_none()
         if not res:
             db.session.add(model)
             db.session.commit()
 
     @classmethod
-    def init_data(cls):
-        # =========================================创建超级管理员START=========================================#
+    def insert_super_admin(cls):
         super_admin = SysUserModel(
             id=10000,
             username="admin",
@@ -41,9 +50,10 @@ class Initialize:
             updater=10000,
         )
         cls.create_data_with_none(super_admin)
-        # =========================================创建超级管理员E N D=========================================#
+        return super_admin
 
-        # =========================================创建菜单START=========================================#
+    @classmethod
+    def insert_menu_list(cls):
         menu_list = [
             SysMenuModel(
                 id=1, pid=0, name="系统设置", url=None, authority=None, type=0, open_style=0, icon="icon-setting",
@@ -218,12 +228,11 @@ class Initialize:
                 open_style=0, icon="icon-file-text", creator=10000, updater=10000
             ),
         ]
-
         for menu in menu_list:
             cls.create_data_with_none(menu)
-        # =========================================创建菜单E N D=========================================#
 
-        # =========================================创建字典类型START=========================================#
+    @classmethod
+    def insert_dict_list(cls, super_admin):
         dict_type_list = [
             SysDictTypeModel(id=1, dict_type="post_status", dict_name="状态", remark="岗位管理", creator=super_admin.id,
                              updater=super_admin.id),
@@ -248,9 +257,7 @@ class Initialize:
         ]
         for dict_type in dict_type_list:
             cls.create_data_with_none(dict_type)
-        # =========================================创建字典类型E N D=========================================#
 
-        # =========================================创建字典数据START=========================================#
         dict_data_list = [
             SysDictDataModel(id=1, dict_type_id=1, dict_label="停用", dict_value="0", label_class="danger", remark="",
                              creator=super_admin.id, updater=super_admin.id),
@@ -317,9 +324,9 @@ class Initialize:
         ]
         for dict_data in dict_data_list:
             cls.create_data_with_none(dict_data)
-        # =========================================创建字典数据E N D=========================================#
 
-        # =========================================创建参数START=========================================#
+    @classmethod
+    def insert_param_list(cls, super_admin):
         param_list = [
             SysParamsModel(id=1, param_name="用户登录-验证码开关", param_type=1, param_key="LOGIN_CAPTCHA",
                            param_value="false", remark="是否开启验证码（true：开启，false：关闭）", creator=super_admin.id,
@@ -327,4 +334,10 @@ class Initialize:
         ]
         for param in param_list:
             cls.create_data_with_none(param)
-        # =========================================创建参数E N D=========================================#
+
+    @classmethod
+    def init_data(cls):
+        super_admin = cls.insert_super_admin()
+        cls.insert_menu_list()
+        cls.insert_dict_list(super_admin)
+        cls.insert_param_list(super_admin)
