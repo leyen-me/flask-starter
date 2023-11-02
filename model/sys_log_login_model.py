@@ -3,11 +3,9 @@ from sqlalchemy import Column, Integer, String, Column
 from .sys_base_model import SysBaseModel
 
 
-
-#登录日志表
 class SysLogLoginModel(SysBaseModel):
     __tablename__ = "sys_log_login"
-    
+
     username = Column(String(50), comment="用户名")
     ip = Column(String(32), comment="登录IP")
     # address = Column(String(32), comment="登录地点")

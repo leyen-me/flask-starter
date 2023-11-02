@@ -3,7 +3,6 @@ from sqlalchemy import Column, BigInteger, Integer, String, Text
 from .sys_base_model import SysBaseModel
 
 
-# 操作日志表
 class SysLogOperateModel(SysBaseModel):
     __tablename__ = "sys_log_operate"
 

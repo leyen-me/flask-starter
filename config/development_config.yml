@@ -1,3 +1,10 @@
 ENV: development
 APP:
   PORT: 8080
+REDIS:
+  HOST: localhost
+  PORT: 6379
+  DB: 0
+SQLALCHEMY:
+  DATABASE_URI: "mysql+pymysql://root:123456@localhost:3306/demo?charset=utf8"
+  SQLALCHEMY_ECHO: True

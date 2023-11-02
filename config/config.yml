@@ -1,4 +1,4 @@
-ENV: development
+ENV: production
 APP:
   STATIC_FOLDER: static
   TOKEN_NAME: Authorization
@@ -7,10 +7,3 @@ APP:
     - "/favicon.ico"
     - "/static/**"
     - "/sys/auth/**"
-REDIS:
-  HOST: localhost
-  PORT: 6379
-  DB: 0
-SQLALCHEMY:
-  DATABASE_URI: "mysql+pymysql://root:123456@localhost:3306/demo?charset=utf8"
-  SQLALCHEMY_ECHO: False
