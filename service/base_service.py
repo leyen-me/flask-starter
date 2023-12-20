@@ -78,7 +78,6 @@ class BaseService:
                 for item2 in item['data_list']:
                     if item2['dict_label'] == str(dict_label):
                         return item2['dict_value']
-                    print(item2)
         return "#字典异常"
 
     @classmethod

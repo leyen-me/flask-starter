@@ -1,5 +1,7 @@
 from datetime import datetime
 from sqlalchemy.engine.row import Row
+
+from logger import logger
 from db import db
 
 
@@ -9,7 +11,7 @@ class Result:
     data = None
 
     @classmethod
-    def handle(cls, data):
+    def serialize(cls, data):
         """
         处理返回时的序列化问题
         """
@@ -22,13 +24,14 @@ class Result:
                 "_") and attr != 'metadata' and attr != 'query' and attr != 'registry')]
             __obj__ = {}
             for attr in attributes:
-                __obj__[attr] = cls.handle(getattr(data, attr))
+                __obj__[attr] = cls.serialize(getattr(data, attr))
             return __obj__
         elif data is None:
             return data
         elif (isinstance(data, int)
               or isinstance(data, str)
-              or isinstance(data, bool)):
+              or isinstance(data, bool)
+              or isinstance(data, float)):
             return data
         elif isinstance(data, datetime):
             return str(data)
@@ -37,29 +40,37 @@ class Result:
         elif isinstance(data, dict):
             __dict__ = {}
             for key in data:
-                __dict__[key] = cls.handle(data[key])
+                __dict__[key] = cls.serialize(data[key])
             return __dict__
         elif isinstance(data, list):
             __list__ = []
             for item in data:
-                __list__.append(cls.handle(item))
+                __list__.append(cls.serialize(item))
             return __list__
         elif isinstance(data, tuple):
-            return cls.handle(list(data))
+            return cls.serialize(list(data))
         elif isinstance(data, BaseException):
             return str(data)
         elif isinstance(data, Row):
-            return cls.handle(data._asdict())
+            return cls.serialize(data._asdict())
         elif isinstance(data, object):
             attributes_and_methods = dir(data)
             attributes = [attr for attr in attributes_and_methods if
-                          (not callable(getattr(data, attr)) and not attr.startswith("_") and not attr.endswith("_"))]
+                          (not callable(getattr(data, attr)) and not attr.startswith("_") and not attr.endswith(
+                              "_"))]
             __obj__ = {}
             for attr in attributes:
-                __obj__[attr] = cls.handle(getattr(data, attr))
+                __obj__[attr] = cls.serialize(getattr(data, attr))
             return __obj__
-        else:
-            raise Exception("不能实现序列化")
+
+    @classmethod
+    def handle(cls, data):
+        try:
+            return cls.serialize(data)
+        except Exception as e:
+            error_msg = "序列化异常, 请手动添加规则" + ' ' + str(e)
+            logger.error(f'{error_msg}')
+            raise Exception("序列化异常, 请手动添加规则")
 
     @classmethod
     def ok(cls, data=None):

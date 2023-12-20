@@ -1,4 +1,4 @@
-from sqlalchemy import Column, BigInteger, Integer, String
+from sqlalchemy import Column, BigInteger, Integer, String, Float
 
 from .sys_base_model import SysBaseModel
 

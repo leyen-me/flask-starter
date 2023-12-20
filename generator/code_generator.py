@@ -68,6 +68,11 @@ from decorator import has_authority, operate_log
 def list():
     return Result.ok({upper_name}Service().list())
 
+@{underline_name}_controller.route("/page", methods=["GET"])
+@has_authority("{auth_name}:page")
+def page():
+    return Result.ok({upper_name}Service().page())
+
 @{underline_name}_controller.route("/<int:id>", methods=['GET'])
 @has_authority("{auth_name}:info")
 def info(id):
