@@ -60,6 +60,9 @@ class Register:
     def register_auth(cls, app):
         @app.before_request
         def before():
+            # 跳过OPTIONS请求
+            if request.method == 'OPTIONS':
+                return
             # 检查白名单
             if PathUtil.is_path_allowed(request.path, CONFIG["APP"]["AUTH_WHITE_LIST"]):
                 return
@@ -81,7 +84,7 @@ class Register:
     def register_exception(cls, app):
         @app.errorhandler(Exception)
         def exception(error_msg):
-            logger.error(error_msg)
+            logger.error(f'{request.path} - {request.method} - {error_msg}')
             return Result.error(error_msg)
 
     # 注册路由
