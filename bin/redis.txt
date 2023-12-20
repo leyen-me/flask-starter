@@ -1,0 +1,3 @@
+docker run -idt -p 6379:6379 --privileged=true \
+-e TZ=Asia/Shanghai \
+--name openai_server_redis redis:latest
