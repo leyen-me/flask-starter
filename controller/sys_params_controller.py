@@ -19,21 +19,21 @@ def info(id):
     return Result.ok(SysParamsService().info(id))
 
 
-@sys_params_controller.route("/", methods=['POST'])
+@sys_params_controller.route("", methods=['POST'])
 @has_authority("sys:params:all")
 def save():
     data = request.json
     return Result.ok(SysParamsService().save(data))
 
 
-@sys_params_controller.route("/", methods=['PUT'])
+@sys_params_controller.route("", methods=['PUT'])
 @has_authority("sys:params:all")
 def update():
     data = request.json
     return Result.ok(SysParamsService().update(data))
 
 
-@sys_params_controller.route("/", methods=['DELETE'])
+@sys_params_controller.route("", methods=['DELETE'])
 @has_authority("sys:params:all")
 def delete():
     data = request.json

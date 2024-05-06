@@ -56,6 +56,9 @@ python -m venv venv
 激活虚拟环境
 venv\Scripts\activate
 
+更新pip
+pip install --upgrade pip
+
 安装依赖
 pip install -r requirements.txt
 ```

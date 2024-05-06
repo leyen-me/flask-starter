@@ -19,14 +19,14 @@ def info(id):
     return Result.ok(SysOrgService().info(id))
 
 
-@sys_org_controller.route("/", methods=['POST'])
+@sys_org_controller.route("", methods=['POST'])
 @has_authority("sys:org:save")
 def save():
     data = request.json
     return Result.ok(SysOrgService().save(data))
 
 
-@sys_org_controller.route("/", methods=['PUT'])
+@sys_org_controller.route("", methods=['PUT'])
 @has_authority("sys:org:update")
 def update():
     data = request.json

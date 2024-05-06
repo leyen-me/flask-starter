@@ -6,5 +6,5 @@ REDIS:
   PORT: 6379
   DB: 0
 SQLALCHEMY:
-  DATABASE_URI: "mysql+pymysql://root:pdBGKGjRyX3Jb2Hn@localhost:3306/flask-starter-mysql?charset=utf8"
+  DATABASE_URI: "mysql+pymysql://root:pdBGKGjRyX3Jb2Hn@localhost:3306/flask?charset=utf8"
   SQLALCHEMY_ECHO: False

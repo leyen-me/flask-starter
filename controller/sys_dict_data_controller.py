@@ -20,21 +20,21 @@ def info(id):
     return Result.ok(SysDictDataService().info(id))
 
 
-@sys_dict_data_controller.route("/", methods=['POST'])
+@sys_dict_data_controller.route("", methods=['POST'])
 @has_authority("sys:dict:save")
 def save():
     data = request.json
     return Result.ok(SysDictDataService().save(data))
 
 
-@sys_dict_data_controller.route("/", methods=['PUT'])
+@sys_dict_data_controller.route("", methods=['PUT'])
 @has_authority("sys:dict:update")
 def update():
     data = request.json
     return Result.ok(SysDictDataService().update(data))
 
 
-@sys_dict_data_controller.route("/", methods=['DELETE'])
+@sys_dict_data_controller.route("", methods=['DELETE'])
 @has_authority("sys:dict:delete")
 def delete():
     data = request.json

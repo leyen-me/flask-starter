@@ -19,7 +19,7 @@ def get_list():
     return Result.ok(SysPostService().get_list())
 
 
-@sys_post_controller.route("/", methods=['POST'])
+@sys_post_controller.route("", methods=['POST'])
 @has_authority("sys:post:save")
 def save():
     data = request.json
@@ -32,14 +32,14 @@ def info(id):
     return Result.ok(SysPostService().info(id))
 
 
-@sys_post_controller.route("/", methods=['PUT'])
+@sys_post_controller.route("", methods=['PUT'])
 @has_authority("sys:post:update")
 def update():
     data = request.json
     return Result.ok(SysPostService().update(data))
 
 
-@sys_post_controller.route("/", methods=["DELETE"])
+@sys_post_controller.route("", methods=["DELETE"])
 @has_authority("sys:post:delete")
 def delete():
     data = request.json

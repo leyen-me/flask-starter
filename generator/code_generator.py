@@ -78,19 +78,19 @@ def page():
 def info(id):
     return Result.ok({upper_name}Service().info(id))
 
-@{underline_name}_controller.route("/", methods=['POST'])
+@{underline_name}_controller.route("", methods=['POST'])
 @has_authority("{auth_name}:save")
 def save():
     data = request.json
     return Result.ok({upper_name}Service().save(data))
 
-@{underline_name}_controller.route("/", methods=['PUT'])
+@{underline_name}_controller.route("", methods=['PUT'])
 @has_authority("{auth_name}:update")
 def update():
     data = request.json
     return Result.ok({upper_name}Service().update(data))
 
-@{underline_name}_controller.route("/", methods=['DELETE'])
+@{underline_name}_controller.route("", methods=['DELETE'])
 @has_authority("{auth_name}:delete")
 def delete():
     data = request.json

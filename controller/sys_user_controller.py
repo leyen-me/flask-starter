@@ -38,21 +38,21 @@ def password():
     return Result.ok(SysUserService().update_password(data))
 
 
-@sys_user_controller.route("/", methods=["POST"])
+@sys_user_controller.route("", methods=["POST"])
 @has_authority("sys:user:save")
 def save():
     data = request.json
     return Result.ok(SysUserService().save(data))
 
 
-@sys_user_controller.route("/", methods=["PUT"])
+@sys_user_controller.route("", methods=["PUT"])
 @has_authority("sys:user:update")
 def update():
     data = request.json
     return Result.ok(SysUserService().update(data))
 
 
-@sys_user_controller.route("/", methods=["DELETE"])
+@sys_user_controller.route("", methods=["DELETE"])
 @has_authority("sys:user:delete")
 def delete():
     id_list = request.json

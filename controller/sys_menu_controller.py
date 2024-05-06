@@ -31,14 +31,14 @@ def info(id):
     return Result.ok(SysMenuService().info(id))
 
 
-@sys_menu_controller.route("/", methods=['POST'])
+@sys_menu_controller.route("", methods=['POST'])
 @has_authority("sys:menu:save")
 def save():
     data = request.json
     return Result.ok(SysMenuService().save(data))
 
 
-@sys_menu_controller.route("/", methods=['PUT'])
+@sys_menu_controller.route("", methods=['PUT'])
 @has_authority("sys:menu:update")
 def update():
     data = request.json

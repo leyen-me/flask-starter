@@ -29,14 +29,14 @@ def info(id):
     return Result.ok(role)
 
 
-@sys_role_controller.route("/", methods=['POST'])
+@sys_role_controller.route("", methods=['POST'])
 @has_authority("sys:role:save")
 def save():
     data = request.json
     return Result.ok(SysRoleService().save(data))
 
 
-@sys_role_controller.route("/", methods=['PUT'])
+@sys_role_controller.route("", methods=['PUT'])
 @has_authority("sys:role:update")
 def update():
     data = request.json
@@ -50,7 +50,7 @@ def data_scope():
     return Result.ok(SysRoleService().data_scope(data))
 
 
-@sys_role_controller.route("/", methods=['DELETE'])
+@sys_role_controller.route("", methods=['DELETE'])
 @has_authority("sys:role:delete")
 def delete():
     data = request.json

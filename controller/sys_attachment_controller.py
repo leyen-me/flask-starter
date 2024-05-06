@@ -13,14 +13,14 @@ def page():
     return Result.ok(SysAttachmentService().page())
 
 
-@sys_attachment_controller.route("/", methods=['POST'])
+@sys_attachment_controller.route("", methods=['POST'])
 @has_authority("sys:attachment:save")
 def save():
     data = request.json
     return Result.ok(SysAttachmentService().save(data))
 
 
-@sys_attachment_controller.route("/", methods=['DELETE'])
+@sys_attachment_controller.route("", methods=['DELETE'])
 @has_authority("sys:attachment:delete")
 def delete():
     data = request.json

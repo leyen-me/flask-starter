@@ -27,7 +27,8 @@ class Initialize:
         这个方法主要用来初始化数据，性能一般
         默认添加的ID数据，尽量不要去修改他们的原始ID，修改后会被重置
         """
-        res = db.session.query(model.__class__).filter(getattr(model.__class__, 'id') == model.id).one_or_none()
+        res = db.session.query(model.__class__).filter(
+            getattr(model.__class__, 'id') == model.id).one_or_none()
         if not res:
             db.session.add(model)
             db.session.commit()
@@ -104,23 +105,23 @@ class Initialize:
                 icon="icon-safetycertificate", creator=10000, updater=10000
             ),
             SysMenuModel(
-                id=13, pid=12, name="岗位管理", url="sys/post", authority=None, type=0, open_style=0,
-                icon="icon-solution", creator=10000, updater=10000
-            ),
-            SysMenuModel(
-                id=14, pid=13, name="查询", url="", authority="sys:post:page", type=1, open_style=0, icon="",
+                id=13, pid=12, name="用户管理", url="sys/user", authority=None, type=0, open_style=0, icon="icon-user",
                 creator=10000, updater=10000
             ),
             SysMenuModel(
-                id=15, pid=13, name="新增", url="", authority="sys:post:save", type=1, open_style=0, icon="",
+                id=14, pid=13, name="查询", url="", authority="sys:user:page", type=1, open_style=0, icon="",
                 creator=10000, updater=10000
             ),
             SysMenuModel(
-                id=16, pid=13, name="修改", url="", authority="sys:post:update,sys:post:info", type=1, open_style=0,
+                id=15, pid=13, name="新增", url="", authority="sys:user:save,sys:role:list", type=1, open_style=0,
                 icon="", creator=10000, updater=10000
             ),
             SysMenuModel(
-                id=17, pid=13, name="删除", url="", authority="sys:post:delete", type=1, open_style=0, icon="",
+                id=16, pid=13, name="修改", url="", authority="sys:user:update,sys:user:info,sys:role:list", type=1,
+                open_style=0, icon="", creator=10000, updater=10000
+            ),
+            SysMenuModel(
+                id=17, pid=13, name="删除", url="", authority="sys:user:delete", type=1, open_style=0, icon="",
                 creator=10000, updater=10000
             ),
             SysMenuModel(
@@ -144,49 +145,50 @@ class Initialize:
                 creator=10000, updater=10000
             ),
             SysMenuModel(
-                id=23, pid=12, name="角色管理", url="sys/role", authority=None, type=0, open_style=0, icon="icon-team",
+                id=23, pid=12, name="岗位管理", url="sys/post", authority=None, type=0, open_style=0,
+                icon="icon-solution", creator=10000, updater=10000
+            ),
+            SysMenuModel(
+                id=24, pid=23, name="查询", url="", authority="sys:post:page", type=1, open_style=0, icon="",
                 creator=10000, updater=10000
             ),
             SysMenuModel(
-                id=24, pid=23, name="查询", url="", authority="sys:role:page", type=1, open_style=0, icon="",
+                id=25, pid=23, name="新增", url="", authority="sys:post:save", type=1, open_style=0, icon="",
                 creator=10000, updater=10000
             ),
             SysMenuModel(
-                id=25, pid=23, name="新增", url="", authority="sys:role:save,sys:role:menu,sys:org:list", type=1,
+                id=26, pid=23, name="修改", url="", authority="sys:post:update,sys:post:info", type=1, open_style=0,
+                icon="", creator=10000, updater=10000
+            ),
+            SysMenuModel(
+                id=27, pid=23, name="删除", url="", authority="sys:post:delete", type=1, open_style=0, icon="",
+                creator=10000, updater=10000
+            ),
+            SysMenuModel(
+                id=28, pid=12, name="角色管理", url="sys/role", authority=None, type=0, open_style=0, icon="icon-team",
+                creator=10000, updater=10000
+            ),
+            SysMenuModel(
+                id=29, pid=28, name="查询", url="", authority="sys:role:page", type=1, open_style=0, icon="",
+                creator=10000, updater=10000
+            ),
+            SysMenuModel(
+                id=30, pid=28, name="新增", url="", authority="sys:role:save,sys:role:menu,sys:org:list", type=1,
                 open_style=0, icon="", creator=10000, updater=10000
             ),
             SysMenuModel(
-                id=26, pid=23, name="修改", url="",
+                id=31, pid=28, name="修改", url="",
                 authority="sys:role:update,sys:role:info,sys:role:menu,sys:org:list,sys:user:page", type=1,
                 open_style=0, icon="", creator=10000, updater=10000
             ),
             SysMenuModel(
-                id=27, pid=23, name="删除", url="", authority="sys:role:delete", type=1, open_style=0, icon="",
+                id=32, pid=28, name="删除", url="", authority="sys:role:delete", type=1, open_style=0, icon="",
                 creator=10000, updater=10000
             ),
             SysMenuModel(
-                id=28, pid=12, name="用户管理", url="sys/user", authority=None, type=0, open_style=0, icon="icon-user",
-                creator=10000, updater=10000
+                id=33, pid=1, name="参数管理", url="sys/params", authority="sys:params:all", type=0, open_style=0,
+                icon="icon-filedone", creator=10000, updater=10000
             ),
-            SysMenuModel(
-                id=29, pid=28, name="查询", url="", authority="sys:user:page", type=1, open_style=0, icon="",
-                creator=10000, updater=10000
-            ),
-            SysMenuModel(
-                id=30, pid=28, name="新增", url="", authority="sys:user:save,sys:role:list", type=1, open_style=0,
-                icon="", creator=10000, updater=10000
-            ),
-            SysMenuModel(
-                id=31, pid=28, name="修改", url="", authority="sys:user:update,sys:user:info,sys:role:list", type=1,
-                open_style=0, icon="", creator=10000, updater=10000
-            ),
-            SysMenuModel(
-                id=32, pid=28, name="删除", url="", authority="sys:user:delete", type=1, open_style=0, icon="",
-                creator=10000, updater=10000
-            ),
-            # SysMenuModel(
-            #     id=33, pid=0, name="应用管理", url="", authority=None, type=0, open_style=0, icon="icon-appstore", creator=10000, updater=10000
-            # ),
             SysMenuModel(
                 id=34, pid=1, name="附件管理", url="sys/attachment", authority=None, type=0, open_style=0,
                 icon="icon-folder-fill", creator=10000, updater=10000
@@ -220,11 +222,7 @@ class Initialize:
                 creator=10000, updater=10000
             ),
             SysMenuModel(
-                id=42, pid=1, name="参数管理", url="sys/params", authority="sys:params:all", type=0, open_style=0,
-                icon="icon-filedone", creator=10000, updater=10000
-            ),
-            SysMenuModel(
-                id=43, pid=38, name="操作日志", url="sys/log/operate", authority="sys:operate:all", type=0,
+                id=42, pid=38, name="操作日志", url="sys/log/operate", authority="sys:operate:all", type=0,
                 open_style=0, icon="icon-file-text", creator=10000, updater=10000
             ),
         ]

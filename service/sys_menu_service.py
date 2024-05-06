@@ -38,12 +38,13 @@ class SysMenuService(BaseService):
 
     def get_menu_list(self, menu_type):
         query = db.session.query(SysMenuModel)
-        if menu_type != None:
+        if menu_type is not None:
             query = query.filter(SysMenuModel.type == menu_type)
-        menu_list = query.filter(SysMenuModel.deleted == 0).order_by(SysMenuModel.sort.asc()).all()
+        query = query.filter(SysMenuModel.deleted == 0)
+        query = query.order_by(SysMenuModel.id.asc())
+        query = query.order_by(SysMenuModel.sort.asc())
+        menu_list = query.all()
         menu_list = Result.handle(menu_list)
-
-        logger.info(menu_list)
         return Tree.build_tree(menu_list)
 
     def get_user_menu_list(self, user_id, menu_type):
