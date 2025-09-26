@@ -5,6 +5,7 @@ import bcrypt
 from flask import request, g, make_response, send_file
 import pandas as pd
 from sqlalchemy import or_
+from sqlalchemy.orm import Query
 
 from db import db, redis
 from common import Result, RedisKeys
@@ -12,34 +13,24 @@ from config import CONFIG
 
 
 class BaseService:
-
+    
     def __init__(self) -> None:
         model_class_name = self.__class__.__name__
         model_class_name = model_class_name.replace("Service", "Model")
         self.model_class = getattr(__import__("model"), model_class_name)
 
-    def query_page(self, query):
-        # 必传参数
-        page = int(request.args.get('page'))
-        limit = int(request.args.get('limit'))
-        order = request.args.get('order')
+    def query_page(self, query: Query):
+        # page -> order asc
         asc = request.args.get('asc')
-        if order:
-            try:
-                field = getattr(self.model_class, order)
-                if asc:
-                    query = query.order_by(field.asc())
-                else:
-                    query = query.order_by(field.desc())
-            except Exception as e:
-                raise Exception("缺少参数->" + str(e))
-
-        data = query.paginate(page=page, per_page=limit, error_out=False)
-
-        return Result.handle({
-            "total": data.total,
-            "list": data.items
-        })
+        order_field = request.args.get('order')
+        if order_field:
+            field = getattr(self.model_class, order_field)
+            if asc:
+                query = query.order_by(field.asc() if asc else field.desc())
+        
+        # page -> page limit
+        data = query.paginate(page=int(request.args.get('page')), per_page=int(request.args.get('limit')), error_out=False)
+        return { "total": data.total, "list": data.items }
 
     # 数据权限范围
     def get_query_by_data_scope(self, query, model=None, attr='org_id'):
