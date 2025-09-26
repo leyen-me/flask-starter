@@ -1,0 +1,11 @@
+ENV: development
+APP:
+  PORT: 8080
+REDIS:
+  HOST: 192.168.31.76
+  PORT: 6379
+  DB: 0
+  PASSWORD: ivytech
+SQLALCHEMY:
+  DATABASE_URI: "mysql+pymysql://root:JGhQ83axm5ydtQEnX8B3RgtqnFIY6U3+TO5VMMVyLxA=@192.168.31.76:3306/flask-ai?charset=utf8"
+  SQLALCHEMY_ECHO: False

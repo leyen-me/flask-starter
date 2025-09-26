@@ -10,7 +10,7 @@ RUN mkdir -p /flask-starter
 # 指定为工作目录
 WORKDIR /flask-starter
 # 拷贝源码
-COPY . /flask-starter
+COPY ./src /flask-starter
 
 VOLUME ["/flask-starter/static", "/flask-starter/.logs"]
 

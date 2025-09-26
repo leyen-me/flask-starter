@@ -68,7 +68,7 @@ pip install -r requirements.txt
 激活虚拟环境
 venv\Scripts\activate
 
-python main.py
+python src/main.py
 ```
 
 ### 生成依赖
@@ -105,9 +105,9 @@ sys_xxx_model.py
 from sqlalchemy import Column, BigInteger
 
 from db import db
-from .sys_base_model import SysBaseModel
+from .base_model import BaseModel
 
-class SysXxxModel(SysBaseModel, db.Model):
+class SysXxxModel(BaseModel, db.Model):
     __tablename__ = "sys_xxx"
 ```
 
