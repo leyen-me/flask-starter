@@ -31,9 +31,6 @@ class SysAuthService():
         user.data_scope_list = SysUserService().get_data_scope(user)
         # 6.生成accessToken
         access_token = str(uuid.uuid4())
-        
-        # u = json.dumps(Result.handle(user))
-        
         # 7.保存用户信息到缓存
         redis.set(RedisKeys.get_access_token_key(access_token), json.dumps(Result.handle(user)), CONFIG["APP"]["TOKEN_EXPIRE"])
         create_time = datetime.now()

@@ -1,9 +1,9 @@
 from sqlalchemy import Column, BigInteger, String, DateTime
 
-from db import db
+from db import db, db_table_args
 
 class SysUserTokenModel(db.Model):
-    __table_args__ = {'mysql_charset': 'utf8mb4', 'mysql_engine': 'InnoDB'}
+    __table_args__ = db_table_args  # 由于这个类没有继承 BaseModel，所以需要自行实现
     __tablename__ = "sys_user_token"
 
     id = Column(BigInteger, primary_key=True, nullable=False, comment="id")

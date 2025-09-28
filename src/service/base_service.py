@@ -1,7 +1,9 @@
+from io import BytesIO
 import os
 import uuid
 import json
 import bcrypt
+from urllib.parse import quote
 from flask import request, g, make_response, send_file
 import pandas as pd
 from sqlalchemy import or_
@@ -120,45 +122,56 @@ class BaseService:
             db.session.bulk_save_objects(models)
             db.session.commit()
 
-    # 导出
-    def export(self, trans_dic=None):
+        # 导出
+    def export(self, trans_dic=None, filename="export_data"):
         """
-        导出
-        trans_dic用来指定导出的时候，哪些使用指定的字典
+        导出数据到Excel，表头仅使用字段的 comment
+        :param trans_dic: 字段转换规则字典
+        :param filename: 导出文件名（不带扩展名）
+        :return: Flask响应对象
         """
         if trans_dic is None:
             trans_dic = {}
 
-        file_folder = os.path.join(CONFIG['APP']['STATIC_FOLDER'])
-        file_name = str(uuid.uuid4()) + ".xlsx"
-        file_path = os.path.join(os.getcwd(), file_folder, file_name)
+        # 1. 获取所有字段，并过滤掉无 comment 或 export=False 的字段
+        fields = []
+        headers = []  # 存储表头（comment）
+        for column in self.model_class.__table__.columns:
+            # 检查是否导出（默认导出，除非显式设置 export=False）
+            if hasattr(column, "info") and column.info.get("export", True) is False:
+                continue
+            # 获取 comment，如果不存在则跳过该字段
+            comment = getattr(column, "comment", None)
+            if not comment:
+                continue
+            fields.append(column.name)
+            headers.append(comment)
 
-        # 字段列表
-        fields = self.model_class.__table__.columns.keys()
-
-        # 字段备注
-        fields_desc = {}
-
-        data_dict = []
-
-        for key in fields:
-            desc = getattr(self.model_class.__table__.columns[key], 'comment', key) or ''
-            fields_desc[key] = desc
-        data_dict.append(fields_desc)
-
+        # 2. 查询数据并构建数据字典（表头为 comment）
+        data = []
         res = db.session.query(self.model_class).all()
         for model in res:
-            model_dict = {}
-            for key in fields:
+            row = {}
+            for i, key in enumerate(fields):
+                # 使用 headers[i]（comment）作为键，保证表头和数据对齐
                 if trans_dic.get(key) is None:
-                    model_dict[key] = model.__getattribute__(key)
+                    row[headers[i]] = model.__getattribute__(key)
                 else:
-                    model_dict[key] = self.get_dict_label(trans_dic.get(key), model.__getattribute__(key))
-            data_dict.append(model_dict)
+                    row[headers[i]] = self.get_dict_label(trans_dic.get(key), model.__getattribute__(key))
+            data.append(row)
 
-        df = pd.DataFrame(data_dict)
-        df.to_excel(file_path, index=False)
+        # 3. 创建 DataFrame（表头是 headers）
+        df = pd.DataFrame(data)
 
-        response = make_response(send_file(file_path, as_attachment=True))
-        response.headers['Access-Control-Expose-Headers'] = 'Content-Disposition'
+        # 4. 生成 Excel 响应
+        output = BytesIO()
+        with pd.ExcelWriter(output, engine="openpyxl") as writer:
+            df.to_excel(writer, index=False)
+        output.seek(0)
+
+        encoded_filename = quote(f"{filename}.xlsx")
+        response = make_response(output.getvalue())
+        response.headers["Content-Type"] = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        response.headers["Content-Disposition"] = f"attachment; filename*=utf-8''{encoded_filename}"
+        response.headers["Access-Control-Expose-Headers"] = "Content-Disposition"
         return response

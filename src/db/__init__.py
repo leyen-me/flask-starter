@@ -9,6 +9,7 @@ db_config = {
     "SQLALCHEMY_DATABASE_URI": CONFIG["SQLALCHEMY"]["DATABASE_URI"],
     "SQLALCHEMY_ECHO": CONFIG["SQLALCHEMY"]["SQLALCHEMY_ECHO"]
 }
+db_table_args = {'mysql_charset': 'utf8mb4', 'mysql_engine': 'InnoDB'}
 # =========================================关系型数据库==========================================
 
 

@@ -80,4 +80,4 @@ def export():
         "super_admin": "user_super_admin",
         "status": "user_status"
     }
-    return SysUserService().export(trans_dic=trans_dic)
+    return SysUserService().export(trans_dic=trans_dic, filename="用户列表")

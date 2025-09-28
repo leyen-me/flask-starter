@@ -7,7 +7,7 @@ class SysUserModel(BaseModel):
     __tablename__ = "sys_user"
 
     username = Column(String(50), nullable=False, comment="用户名")
-    password = Column(String(100), comment="密码")
+    password = Column(String(100), comment="密码", info={ "export":False }) # 密码在用户导出的时候，不允许导出
     real_name = Column(String(50), comment="姓名")
     avatar = Column(String(200), comment="头像")
     gender = Column(Integer, comment="性别   0：男   1：女   2：未知")
